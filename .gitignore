@@ -6,7 +6,6 @@ __pycache__/
 .vscode/
 .claude/
 .rce/
-demo/
 papers/
 config.yaml
 experiments/

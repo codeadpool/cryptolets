@@ -1,0 +1,28 @@
+# BN254 Montgomery modular multiplier, one design per integer multiplier
+sweep:
+  bitwidth: [128, 256]
+  tech_type: [gf12_highperf]
+  period: [1.0]
+  ii: [1]
+  mul_type: [mul_nor, mul_sb, mul_kar]
+  dep_period_ratio: [1.0]
+
+  base_mul_width:
+    128: [64]
+    254: [63]
+    256: [64]
+  kar_base_mul_width:
+    128: [64]
+    254: [127, 63]
+    256: [128, 64]
+
+  q_type: [var_q]
+  rc_type: [var_rc, fixed_rc]
+  mred: [mred_mont]
+  field: [arb_field, bn254_base]
+
+flags:
+  num_test_samples: 100
+  syn_sel: all
+  bb_syn_metrics: false
+  syn_passes: 1

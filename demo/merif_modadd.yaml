@@ -1,0 +1,13 @@
+# BN254 modular adder at two clock periods, through gls and power
+sweep:
+  bitwidth: [32, 64, 128, 256, 384]
+  tech_type: [gf12_highperf]
+  period: [1.0, 2.0, 4.0]
+  ii: [1]
+  field: [arb_field, bn254_base, bls12_381_base]
+
+flags:
+  num_test_samples: 100
+  syn_sel: all
+  bb_syn_metrics: false
+  syn_passes: 1
