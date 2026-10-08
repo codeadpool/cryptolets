@@ -11,4 +11,3 @@ config.yaml
 experiments/
 catapult_docs/
 future.md
-run.sh
