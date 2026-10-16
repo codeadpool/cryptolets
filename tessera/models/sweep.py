@@ -20,6 +20,10 @@ class Sweep(BaseModel):
     # Helps meet timing constraints of the parent
     dep_period_ratio: Optional[list[float]] = [1]
 
+    # The share of a blackboxed child's period kept for the parent's logic at
+    # each child port. Applied again at each level of depth.
+    dep_io_ratio: Optional[list[float]] = None
+
     # A named curve fixes n to its own bitwidth; arb_field follows n
     field: Optional[list[str]] = None
     mred: Optional[list[Literal["mred_mont", "mred_bar"]]] = None # montgomery or barrett reduction

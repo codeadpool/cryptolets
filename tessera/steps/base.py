@@ -45,9 +45,10 @@ class Step:
 
     def designs(self, designs, kernel, run_inst):
         "The designs still needing this step, narrowed by select()"
-        # The requested kernel is always rebuilt, since that is the request.
+        # The requested kernel is always rebuilt, since that is the request,
+        # unless --resume asks to redo only what did not finish.
         # A dependency is reused when this step already ran for it.
-        if kernel.name != run_inst.target:
+        if kernel.name != run_inst.target or run_inst.resume:
             todo = [d for d in designs if not self.is_done(d)]
             if len(todo) < len(designs):
                 logging.info(f"{kernel.name}: {len(designs) - len(todo)} of "

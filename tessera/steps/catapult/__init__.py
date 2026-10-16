@@ -82,20 +82,24 @@ class CatapultHLS(Step):
         if self.flags(run_inst, kernel)["run_vivado"]:
             logging.info(f"Running Vivado FPGA for {design_name} after")
 
-        # First Catapult run
-        return_code = self.run_catapult(kernel.build_dir, design.build_dir)
+        if kernel.config.force_combinational:
+            combinational = True
+        else:
+            # First Catapult run
+            return_code = self.run_catapult(kernel.build_dir, design.build_dir)
 
-        # After the first run, check if the design can be built as a combinational
-        # By checking if the latency <= 1 cycle.
-        latency_fp = design.build_dir / "Catapult" / "latency.txt"
-        combinational = (return_code == COMB_CHK_EXIT and latency_fp.exists()
-                         and int(latency_fp.read_text()) <= 1)
+            # After the first run, check if the design can be built as a combinational
+            # By checking if the latency <= 1 cycle.
+            latency_fp = design.build_dir / "Catapult" / "latency.txt"
+            combinational = (return_code == COMB_CHK_EXIT and latency_fp.exists()
+                             and int(latency_fp.read_text()) <= 1)
+            if combinational:
+                logging.info(f"{design_name} schedules in one cycle, rebuilding as combinational")
+                archive_run(design.build_dir, label="comb_chk_", dirs=("Catapult",))
         mark_combinational(design.build_dir, combinational)
 
         # Second Catapult run if the design can be built as a combinational
         if combinational:
-            logging.info(f"{design_name} schedules in one cycle, rebuilding as combinational")
-            archive_run(design.build_dir, label="comb_chk_", dirs=("Catapult",))
             gen_kernel_top(design, kernel, combinational=True)
             gen_catapult_design_tcl(design, kernel, combinational=True)
             return_code = self.run_catapult(kernel.build_dir, design.build_dir)

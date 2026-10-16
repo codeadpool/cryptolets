@@ -40,9 +40,9 @@ link
 
 source {{ constraints_tcl }}
 {% if combinational %}
-set_comb_constraints {{ period }}
+set_comb_constraints {{ period }} {{ io_delay }}
 {% else %}
-set_clocked_constraints {{ period }}
+set_clocked_constraints {{ period }} {{ io_delay }}
 {% endif %}
 
 # Run a full pass first, and then incremental passes for meeting timing

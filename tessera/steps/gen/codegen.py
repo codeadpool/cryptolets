@@ -155,6 +155,12 @@ def _stage_bodies(kernel, run_inst):
      $tech_vendor $tech_technology $tech_catapult_lib_file \
      $tech_family $tech_speed $tech_part",
         "set_clock $period",
+        # A sequential child leaves io_delay at its ports for the parent. A
+        # combinational one reports its full delay to the parent instead.
+        "if { [info exists io_delay] && $top_class eq $kernel_name } {",
+        "    directive set -INPUT_DELAY $io_delay",
+        "    directive set -OUTPUT_DELAY $io_delay",
+        "}",
     ]
 
     return {'analyze': analyze_stage, 'compile': compile_stage, 'libraries': libraries_stage}

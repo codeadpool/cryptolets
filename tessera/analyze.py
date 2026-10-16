@@ -8,7 +8,9 @@ those columns empty.
 import csv
 from pathlib import Path
 
+from tessera.const import DONE_DIR
 from tessera.models.kernel import Kernel, KernelConfig
+from tessera.steps import PIPELINE
 
 import yaml
 
@@ -16,7 +18,9 @@ import yaml
 METRICS = ["cycles", "latency", "area (um^2)", "area_dc (um^2)", "area (mm^2)",
            "delay", "delay_dc",
            "luts", "ffs", "dsps", "brams", "carry",
-           "power (uW)", "power_dc (uW)", "gls"]
+           "power (uW)", "power_dc (uW)", "gls", "done"]
+
+STEP_ORDER = [step.name for step in PIPELINE]
 
 # The order rows are shown in, by the first key, then the next within it
 SORT_KEYS = ["tech_type", "period", "bitwidth"]
@@ -75,6 +79,10 @@ def collect(kernel_build_dir, design_key=None):
         area = manifest.get("area")
         row["area (mm^2)"] = area / 1e6 if area else None
 
+        # The last step that finished, so a design a run skipped or failed shows
+        done = manifest_path.parent.parent / DONE_DIR
+        row["done"] = next((s for s in reversed(STEP_ORDER) if (done / f"{s}.done").exists()), None)
+
         # Whether the netlist still computes what the design says it does
         gls = manifest.get("gls")
         row["gls"] = "" if gls is None else ("P" if gls else "F")
@@ -116,23 +124,27 @@ def sort_rows(rows):
     return sorted(rows, key=key)
 
 
+def columns(rows):
+    """
+    Every column any row has, in first-seen order.
+
+    Designs of one kernel can carry different params: a standalone cmul has
+    cmul_const_w and cmul_hamming, a cmul built for a modmul has cmul_const.
+    """
+    return list(dict.fromkeys(k for row in rows for k in row))
+
+
 def drop_empty_columns(rows):
     "Hide what the sweep did not vary or has not measured yet"
-    if not rows:
-        return rows
-
-    keep = [k for k in rows[0] if any(row.get(k) is not None for row in rows)]
-    return [{k: row[k] for k in keep} for row in rows]
+    keep = [k for k in columns(rows) if any(row.get(k) is not None for row in rows)]
+    return [{k: row.get(k) for k in keep} for row in rows]
 
 
 def order_columns(rows):
     "Parameters first, since they say which design a row is, then its results"
-    if not rows:
-        return rows
-
-    params = [k for k in rows[0] if k not in METRICS]
-    order = [*params, *[m for m in METRICS if m in rows[0]]]
-    return [{k: row[k] for k in order if k in row} for row in rows]
+    cols = columns(rows)
+    order = [*[k for k in cols if k not in METRICS], *[m for m in METRICS if m in cols]]
+    return [{k: row.get(k) for k in order} for row in rows]
 
 
 def _format(key, value):

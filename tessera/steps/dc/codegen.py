@@ -66,6 +66,7 @@ def gen_dc_tcl(design, kernel, run_inst):
         module=manifest["module"],
         rtl=str((package_dir / manifest["rtl"]).resolve()),
         period=design.design["period"],
+        io_delay=design.design.get("io_delay", ""),
         combinational=manifest["combinational"],
         target_library=str(Path(tech.lib_db).expanduser()),
         children=children,

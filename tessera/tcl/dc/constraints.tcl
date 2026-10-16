@@ -8,8 +8,9 @@ proc set_activity {} {
     infer_switching_activity -apply
 }
 
-# A sequential design runs on its clk port
-proc set_clocked_constraints {period} {
+# A sequential design runs on its clk port. A blackboxed child gets io_delay,
+# the time its parent keeps at each port for its own logic.
+proc set_clocked_constraints {period {io_delay ""}} {
     create_clock clk -name clk -period $period
 
     set input_ports  [remove_from_collection [all_inputs] clk]
@@ -17,10 +18,17 @@ proc set_clocked_constraints {period} {
 
     # Inputs arrive at the clock edge. Fine for an architecture study, not
     # for a tapeout, where the driver's delay would count
-    set_input_delay  -max 0 [get_ports $input_ports] -clock clk
+    set in_delay 0
+    set out_delay [expr {$period / 4.0}]
+    if {$io_delay ne ""} {
+        set in_delay $io_delay
+        set out_delay $io_delay
+    }
+
+    set_input_delay  -max $in_delay [get_ports $input_ports] -clock clk
     set_input_delay  -min 0 [get_ports $input_ports] -clock clk
 
-    set_output_delay -max [expr {$period / 4.0}] [get_ports $output_ports] -clock clk
+    set_output_delay -max $out_delay [get_ports $output_ports] -clock clk
     set_output_delay -min [expr {$period / 8.0}] [get_ports $output_ports] -clock clk
 
     group_path -name output_group -to   [all_outputs]
@@ -30,8 +38,12 @@ proc set_clocked_constraints {period} {
 }
 
 # A combinational design (a CCORE) has no clock: the whole period is its
-# input to output budget, against a virtual clock, as Catapult constrains it
-proc set_comb_constraints {period} {
+# input to output budget, against a virtual clock, as Catapult constrains it.
+# A blackboxed child leaves io_delay of it to the parent's logic around it.
+proc set_comb_constraints {period {io_delay ""}} {
+    if {$io_delay ne ""} {
+        set period [expr {$period - $io_delay}]
+    }
     create_clock -name clk -period $period
 
     set_input_delay  0 [all_inputs]  -clock clk

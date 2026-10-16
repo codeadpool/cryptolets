@@ -1,5 +1,6 @@
 import threading
 import logging
+import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -14,6 +15,22 @@ from tessera.schedule import get_schedule
 from tessera.const import BUILD_DIR, FLATTENED_SWEEP_FILE, ROOT_DIR
 from tessera.steps import PIPELINE, STAGES, has_stage
 
+LICENSE_WAIT_S = 300
+LICENSE_POLL_S = 60
+
+
+def wait_for_license(step):
+    "Free licenses for the step, checking again while none is free; 0 if none freed up"
+    for waited in range(0, LICENSE_WAIT_S + 1, LICENSE_POLL_S):
+        if waited:
+            time.sleep(LICENSE_POLL_S)
+        info = get_license_info(step.license)
+        logging.info(f"{info['available']} {step.name} licenses available ({info['feature']})")
+        if info['available']:
+            return info['available']
+    return 0
+
+
 def run_step(step, designs, kernel, run):
     "Pool one step over a kernel's designs, and report how many passed"
 
@@ -21,9 +38,12 @@ def run_step(step, designs, kernel, run):
     # Instead of hogging multiple threads per worker.
     workers = run.workers if step.multi_threaded else run.threads
 
-    if step.license:
-        available = get_license_info(step.license)['available']
-        logging.info(f"{available} {step.name} licenses available")
+    if step.license and designs:
+        available = wait_for_license(step)
+        if not available:
+            logging.error(f"No {step.name} license after {LICENSE_WAIT_S // 60} min, "
+                          f"skipping {len(designs)} designs. Rerun with --resume.")
+            return 0, len(designs)
         if available < workers:
             logging.warning(f"Not enough {step.name} licenses available, "
                             f"using {available} workers")
@@ -48,7 +68,7 @@ def rate(passed, total):
     return f"{passed}/{total} ({100 * passed / total:.0f}%)"
 
 
-def run(kernel, threads, threads_per_process, sweep, frm, to, only):
+def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False):
     logging.info(f"Running Tessera")
     kernel_build_dir = Path(BUILD_DIR, kernel)
     flattened_sweep_path = kernel_build_dir / FLATTENED_SWEEP_FILE
@@ -111,6 +131,7 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only):
         frm=frm,
         to=to,
         root_dir=ROOT_DIR,
+        resume=resume,
     )
 
     # Warn if HLS RTL verification is skipped when HLS was generated

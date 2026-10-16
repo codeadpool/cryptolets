@@ -40,8 +40,10 @@ def app():
               help='The stage to stop after.')
 @click.option('--only', type=click.Choice(STAGES), default=None,
               help='Run one stage alone, reusing what an earlier run built.')
+@click.option('--resume', is_flag=True,
+              help='Redo only the designs a step did not finish, the target kernel included.')
 @click.option('--verbose', '-v', is_flag=True, help='Show debug logging.')
-def run(kernel, threads, threads_per_process, sweep, frm, to, only, verbose):
+def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume, verbose):
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
     core.run(
@@ -52,6 +54,7 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, verbose):
         frm=frm,
         to=to,
         only=only,
+        resume=resume,
     )
 
 @app.command("analyze")

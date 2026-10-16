@@ -16,3 +16,4 @@ class Run:
     frm: str               # the stage range to run
     to: str
     root_dir: Path
+    resume: bool = False   # the target also skips designs a step already finished

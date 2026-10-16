@@ -54,12 +54,6 @@ proc adder_tree_opt {tech_type} {
     }
 }
 
-proc set_ii { ii {multi_word 0} } {
-    if {!$multi_word} {
-        directive set -PIPELINE_INIT_INTERVAL $ii
-    }
-}
-
 proc save_table { table_fp } {
     solution table export -file $table_fp
 }

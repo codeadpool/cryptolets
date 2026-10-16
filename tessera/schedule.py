@@ -33,6 +33,11 @@ def child_design(parent, params, child_kernel):
         design[param] = parent.design[param]
     design["period"] = parent.design["dep_period_ratio"] * parent.design["period"]
 
+    # The parent keeps io_delay of the child's period at each child port
+    if "dep_io_ratio" in parent.design:
+        design["dep_io_ratio"] = parent.design["dep_io_ratio"]
+        design["io_delay"] = round(parent.design["dep_io_ratio"] * design["period"], 4)
+
     child = Design(design)
     # The parent already holds the structs the child's refs point at
     for param in PARAMS_MAPPED_TO_STRUCT:

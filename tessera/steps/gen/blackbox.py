@@ -105,6 +105,9 @@ def gen_blackbox_headers(design, run_inst):
                 "init_delay": manifest.get("params", {}).get("ii", 1),
                 **blackbox_metrics(manifest, syn_metrics, child_design),
                 "latency": manifest["latency"],
+                # The time the child spends between a port and its registers
+                "port_delay": (round(child_design.design["period"] - child_design.design["io_delay"], 4)
+                               if "io_delay" in child_design.design else None),
             })
 
         # Use a placeholder header if the child design is not fully built

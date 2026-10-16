@@ -47,6 +47,9 @@ public:
             .delay({{ d.delay }})
 {% else %}
             .clock_name("clk").latency({{ d.latency }}).init_delay({{ d.init_delay }})
+{% if d.port_delay is not none %}
+            .input_delay({{ d.port_delay }}).delay({{ d.port_delay }})
+{% endif %}
 {% endif %}
             .end();
     }

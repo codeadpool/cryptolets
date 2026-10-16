@@ -18,6 +18,7 @@ class KernelConfig(BaseModel):
     stages: dict[str, str] = {}
     fields: list[str] = [] # Fields the impl names directly, beyond the design's own
     structs: dict[str, dict] = {} # Structs the kernel defines itself
+    force_combinational: bool = False # Skip the latency check, build as one combinational block
 
 
     @model_validator(mode="after")
