@@ -10,16 +10,18 @@ static constexpr int RC_W = BITWIDTH;
 #endif
 
 vector<string> run_per_row(vector<string>& samples_row) {
-  PointAff<FIELD> P, Q;
-  P.x = parse_ac_int<BITWIDTH>(samples_row[0]);
-  P.y = parse_ac_int<BITWIDTH>(samples_row[1]);
-  Q.x = parse_ac_int<BITWIDTH>(samples_row[2]);
-  Q.y = parse_ac_int<BITWIDTH>(samples_row[3]);
-  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[4]);
-  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[5]);
-
-  PointExtProj<FIELD> P0 = aff_to_ext_proj<FIELD>(P, q);
-  PointExtProj<FIELD> P1 = aff_to_ext_proj<FIELD>(Q, q);
+  // The samples are extended projective points, each with its own Z
+  PointExtProj<FIELD> P0, P1;
+  P0.X = parse_ac_int<BITWIDTH>(samples_row[0]);
+  P0.Y = parse_ac_int<BITWIDTH>(samples_row[1]);
+  P0.Z = parse_ac_int<BITWIDTH>(samples_row[2]);
+  P0.T = parse_ac_int<BITWIDTH>(samples_row[3]);
+  P1.X = parse_ac_int<BITWIDTH>(samples_row[4]);
+  P1.Y = parse_ac_int<BITWIDTH>(samples_row[5]);
+  P1.Z = parse_ac_int<BITWIDTH>(samples_row[6]);
+  P1.T = parse_ac_int<BITWIDTH>(samples_row[7]);
+  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[8]);
+  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[9]);
 
 #if MRED == MRED_MONT
   P0 = to_mont<FIELD>(P0, q);

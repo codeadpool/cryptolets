@@ -18,7 +18,7 @@ Sweep design parameters:
 
 - `bitwidth` — the width of the field elements; the `field` sets it
 - `field` — the curve's base field, for example `bn254_base`
-- `pdbl_form` — the doubling formula: `pdbl_a0`, `pdbl_a3` or `pdbl_avar`, matching the curve's $a$
+- `pdbl_form` — the doubling formula: `pdbl_a0`, `pdbl_a2`, `pdbl_a3` or `pdbl_avar`, matching the curve's $a$. The sweep skips a formula that does not match
 - `mred` — the reduction algorithm: `mred_mont` or `mred_bar`
 - `q_type` — `fixed_q` or `var_q`
 - `rc_type` — `fixed_rc` or `var_rc`
@@ -29,6 +29,7 @@ Sweep design parameters:
 - `tech_type` — the target technology node or FPGA part
 - `ii` — the initiation interval, the number of cycles between two accepted inputs
 - `dep_period_ratio` — the clock period of a blackboxed child, as a ratio of `period`
+- `dep_io_ratio` — the share of a blackboxed child's period kept for the parent's logic at each port
 
 ## Dependencies
 

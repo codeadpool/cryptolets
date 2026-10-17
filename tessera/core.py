@@ -100,7 +100,7 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
     # Flatten the sweep, and reuse stored flattened sweep if
     # the generate (first) stage is skipped
     flattened_sweep = flatten_sweep(
-        sweep_conf_map['sweep'], 
+        sweep_conf.sweeps(),
         flattened_sweep_path,
         reuse=frm != STAGES[0]
     )

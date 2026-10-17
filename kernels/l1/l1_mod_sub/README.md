@@ -18,6 +18,7 @@ Sweep design parameters:
 - `tech_type` — the target technology node or FPGA part
 - `ii` — the initiation interval, the number of cycles between two accepted inputs
 - `dep_period_ratio` — the clock period of a blackboxed child, as a ratio of `period`
+- `dep_io_ratio` — the share of a blackboxed child's period kept for the parent's logic at each port
 
 ## Dependencies
 

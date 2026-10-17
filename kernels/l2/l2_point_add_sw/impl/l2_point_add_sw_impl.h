@@ -8,6 +8,7 @@
 #include "l1_mod_add_impl.h"
 #include "l1_mod_sub_impl.h"
 #include "l2_point_dbl_sw_a0.h"
+#include "l2_point_dbl_sw_a2.h"
 #include "l2_point_dbl_sw_a3.h"
 #include "l2_point_dbl_sw_avar.h"
 
@@ -22,6 +23,7 @@ class l2_point_add_sw_impl {
     l1_mod_add_impl<_FIELD>             modadd_inst;
     l1_mod_sub_impl<_FIELD>             modsub_inst;
     l2_point_dbl_sw_a0<_FIELD, _MRED>   a0_inst;
+    l2_point_dbl_sw_a2<_FIELD, _MRED>   a2_inst;
     l2_point_dbl_sw_a3<_FIELD, _MRED>   a3_inst;
     l2_point_dbl_sw_avar<_FIELD, _MRED> avar_inst;
 
@@ -51,6 +53,8 @@ public:
         if (U1 == U2 && S1 == S2) {
             if constexpr (_PDBL_FORM == PDBL_A0) {
                 a0_inst.run(P0, q, rc, R);
+            } else if constexpr (_PDBL_FORM == PDBL_A2) {
+                a2_inst.run(P0, q, rc, R);
             } else if constexpr (_PDBL_FORM == PDBL_A3) {
                 a3_inst.run(P0, Z1Z1, q, rc, R);
             } else { // PDBL_AVAR

@@ -9,13 +9,13 @@ static constexpr int RC_W = BITWIDTH;
 #endif
 
 vector<string> run_per_row(vector<string>& samples_row) {
-  PointAff<FIELD> P;
-  P.x = parse_ac_int<BITWIDTH>(samples_row[0]);
-  P.y = parse_ac_int<BITWIDTH>(samples_row[1]);
-  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[2]);
-  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[3]);
-
-  PointJac<FIELD> P0 = aff_to_jac<FIELD>(P);
+  // The sample is a Jacobian point with a random Z
+  PointJac<FIELD> P0;
+  P0.X = parse_ac_int<BITWIDTH>(samples_row[0]);
+  P0.Y = parse_ac_int<BITWIDTH>(samples_row[1]);
+  P0.Z = parse_ac_int<BITWIDTH>(samples_row[2]);
+  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[3]);
+  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[4]);
 
 #if MRED == MRED_MONT
   P0 = to_mont<FIELD>(P0, q);

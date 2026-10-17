@@ -1,12 +1,16 @@
 """
 Pydantic models for sweep files.
 """
+import logging
 from typing import Literal, Optional, get_args
 from pydantic import BaseModel, model_validator
 
-from tessera.const import ARB_FIELD
+from tessera.const import ARB_FIELD, KERNELS_DIR
 from tessera.models.common import load_and_validate_yaml, load_curves, is_fpga
 from tessera.models.config import RunConfig
+
+# The settings deps can give one child kernel, in ns
+DEP_SETTINGS = {"period", "io_delay"}
 
 
 class Sweep(BaseModel):
@@ -23,6 +27,10 @@ class Sweep(BaseModel):
     # The share of a blackboxed child's period kept for the parent's logic at
     # each child port. Applied again at each level of depth.
     dep_io_ratio: Optional[list[float]] = None
+
+    # Exact timing for one blackboxed child kernel, in ns, in place of the
+    # ratios above, e.g. {l0_int_cmul: {period: [0.8], io_delay: [0.32]}}
+    deps: Optional[dict[str, dict[str, list[float]]]] = None
 
     # A named curve fixes n to its own bitwidth; arb_field follows n
     field: Optional[list[str]] = None
@@ -53,7 +61,7 @@ class Sweep(BaseModel):
     ]]] = None
 
     # point addtion formula selections
-    pdbl_form: Optional[list[Literal["pdbl_a0", "pdbl_a3", "pdbl_avar"]]] = None
+    pdbl_form: Optional[list[Literal["pdbl_a0", "pdbl_a2", "pdbl_a3", "pdbl_avar"]]] = None
     padd_te_form: Optional[list[Literal["padd_te_add", "padd_te_cyclone"]]] = None
 
     # Keyed by n, e.g. {16: [8, 16], 32: [16, 32]}
@@ -90,6 +98,18 @@ class Sweep(BaseModel):
         return self
 
     @model_validator(mode="after")
+    def _check_deps(self):
+        for kernel, settings in (self.deps or {}).items():
+            # Kernel.find, without importing the kernel model, which imports this one
+            if not any((level / kernel).is_dir() for level in KERNELS_DIR.iterdir()):
+                raise ValueError(f"deps: unknown kernel '{kernel}'")
+            unknown = set(settings) - DEP_SETTINGS
+            if unknown:
+                raise ValueError(f"deps.{kernel}: unknown {', '.join(sorted(unknown))}, "
+                                 f"pick from: {', '.join(sorted(DEP_SETTINGS))}")
+        return self
+
+    @model_validator(mode="after")
     def _check_fields(self):
         if self.field:
             valid = {ARB_FIELD} | set(load_curves())
@@ -117,8 +137,29 @@ class SweepConfig(BaseModel):
     sweep: Sweep
     flags: SweepFlags
 
+    # Each variant replaces the keys it names in the sweep and is swept on
+    # its own, so values from two variants are never crossed
+    variants: list[dict] = []
+
+    def sweeps(self):
+        "The sweep, or one sweep per variant"
+        base = self.sweep.model_dump()
+        if not self.variants:
+            return [base]
+        return [Sweep(**{**base, **v}).model_dump() for v in self.variants]
+
     def is_fpga_run(self):
-        return any(is_fpga(tech) for tech in self.sweep.tech_type)
+        return any(is_fpga(tech) for sweep in self.sweeps() for tech in sweep["tech_type"])
+
+    @model_validator(mode="after")
+    def _warn_fixed_deps_across_periods(self):
+        # deps times are in ns, so they stay put while the top period changes
+        for sweep in self.sweeps():
+            if sweep["deps"] and len(sweep["period"]) > 1:
+                logging.warning(f"deps sets fixed times in ns for {', '.join(sweep['deps'])}, "
+                                f"but the sweep has several periods {sweep['period']}. "
+                                f"Use one variant per period.")
+        return self
 
     @model_validator(mode="after")
     def _check_fpga_flags(self):

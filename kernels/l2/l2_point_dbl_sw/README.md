@@ -1,7 +1,7 @@
 # `l2_point_dbl_sw` - Point Doubling (Short Weierstrass)
 
 ## Description
-Doubling of a point on an elliptic curve, $R = 2P$. This kernel targets the Short Weierstrass form, $y^2 = x^3 + ax + b$. The point is in Jacobian coordinates $(X, Y, Z)$, which represent the affine point $(X/Z^2, Y/Z^3)$ and avoid the field inversion that affine doubling needs. The formula depends on the curve coefficient $a$: curves with $a = 0$ or $a = -3$ have cheaper specialised formulas, so `pdbl_form` selects the one matching the curve. We use formulas from hyperelliptic database [1].
+Doubling of a point on an elliptic curve, $R = 2P$. This kernel targets the Short Weierstrass form, $y^2 = x^3 + ax + b$. The point is in Jacobian coordinates $(X, Y, Z)$, which represent the affine point $(X/Z^2, Y/Z^3)$ and avoid the field inversion that affine doubling needs. The formula depends on the curve coefficient $a$: curves with $a = 0$, $a = 2$ or $a = -3$ have cheaper specialised formulas, so `pdbl_form` selects the one matching the curve. We use formulas from hyperelliptic database [1].
 
 
 | port | direction | width |
@@ -15,7 +15,7 @@ Sweep design parameters:
 
 - `bitwidth` — the width of the field elements; the `field` sets it
 - `field` — the curve's base field, for example `bn254_base`
-- `pdbl_form` — the doubling formula: `pdbl_a0`, `pdbl_a3` or `pdbl_avar`, matching the curve's $a$
+- `pdbl_form` — the doubling formula: `pdbl_a0`, `pdbl_a2`, `pdbl_a3` or `pdbl_avar`, matching the curve's $a$. The sweep skips a formula that does not match
 - `mred` — the reduction algorithm: `mred_mont` or `mred_bar`
 - `q_type` — `fixed_q` or `var_q`
 - `rc_type` — `fixed_rc` or `var_rc`
@@ -26,6 +26,7 @@ Sweep design parameters:
 - `tech_type` — the target technology node or FPGA part
 - `ii` — the initiation interval, the number of cycles between two accepted inputs
 - `dep_period_ratio` — the clock period of a blackboxed child, as a ratio of `period`
+- `dep_io_ratio` — the share of a blackboxed child's period kept for the parent's logic at each port
 
 ### a = 0
 
@@ -35,9 +36,13 @@ Sweep design parameters:
 
 `pdbl_a3` is `dbl-2001-b`. The $a$ term is folded into a difference of squares, $3(X - Z^2)(X + Z^2)$, so again no constant multiplication is needed. Used by the NIST curves such as P-256.
 
+### a = 2
+
+`pdbl_a2` is `dbl-2007-bl` with the product $a \cdot Z^4$ computed as $Z^4 + Z^4$. One modular addition replaces the constant multiplication. Used by MNT4753.
+
 ### Any a
 
-`pdbl_avar` is `dbl-2007-bl`, which works for any $a$ at the cost of one constant multiplication by $a$, built from a `l1_mod_cmul`. Used by curves such as MNT4753, where $a = 2$.
+`pdbl_avar` is `dbl-2007-bl`, which works for any $a$ at the cost of one constant multiplication by $a$, built from a `l1_mod_cmul`.
 
 ## Dependencies
 

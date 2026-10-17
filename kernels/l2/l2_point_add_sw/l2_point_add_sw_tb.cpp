@@ -9,16 +9,16 @@ static constexpr int RC_W = BITWIDTH;
 #endif
 
 vector<string> run_per_row(vector<string>& samples_row) {
-  PointAff<FIELD> P, Q;
-  P.x = parse_ac_int<BITWIDTH>(samples_row[0]);
-  P.y = parse_ac_int<BITWIDTH>(samples_row[1]);
-  Q.x = parse_ac_int<BITWIDTH>(samples_row[2]);
-  Q.y = parse_ac_int<BITWIDTH>(samples_row[3]);
-  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[4]);
-  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[5]);
-
-  PointJac<FIELD> P0 = aff_to_jac<FIELD>(P);
-  PointJac<FIELD> P1 = aff_to_jac<FIELD>(Q);
+  // The samples are Jacobian points, each with its own Z
+  PointJac<FIELD> P0, P1;
+  P0.X = parse_ac_int<BITWIDTH>(samples_row[0]);
+  P0.Y = parse_ac_int<BITWIDTH>(samples_row[1]);
+  P0.Z = parse_ac_int<BITWIDTH>(samples_row[2]);
+  P1.X = parse_ac_int<BITWIDTH>(samples_row[3]);
+  P1.Y = parse_ac_int<BITWIDTH>(samples_row[4]);
+  P1.Z = parse_ac_int<BITWIDTH>(samples_row[5]);
+  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[6]);
+  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[7]);
 
 #if MRED == MRED_MONT
   P0 = to_mont<FIELD>(P0, q);

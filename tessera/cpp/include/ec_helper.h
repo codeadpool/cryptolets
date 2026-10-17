@@ -26,30 +26,6 @@ struct PointExtProj {
     ac_int<_FIELD::W, false> X, Y, Z, T;
 };
 
-// Z is free, so a converted affine point takes the cheapest one
-
-// affine to jacobian
-template<class _FIELD>
-PointJac<_FIELD> aff_to_jac(const PointAff<_FIELD> P) {
-    PointJac<_FIELD> R;
-    R.X = P.x;
-    R.Y = P.y;
-    R.Z = 1;
-    return R;
-}
-
-// affine to extended projective
-template<class _FIELD>
-PointExtProj<_FIELD> aff_to_ext_proj(const PointAff<_FIELD> P,
-                                     const ac_int<_FIELD::W, false> q) {
-    PointExtProj<_FIELD> R;
-    R.X = P.x;
-    R.Y = P.y;
-    R.Z = 1;
-    R.T = mod_mul<_FIELD>(P.x, P.y, q);
-    return R;
-}
-
 // jacobian to affine
 // x = X/Z^2 and y = Y/Z^3
 template<class _FIELD>

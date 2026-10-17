@@ -12,6 +12,7 @@ import logging
 from itertools import product
 
 from tessera.models.common import load_curves
+from tessera.structs.field import get_field
 from tessera.models.design import Design
 from tessera.const import ARB_FIELD
 
@@ -33,7 +34,17 @@ def derive_field_width(design):
         design["bitwidth"] = load_curves()[field]["bitwidth"]
 
 
-DERIVATIONS = [derive_field_width]
+def drop_default_deps(design):
+    "No port share is the default, so naming it must not make a new design"
+    # With a dep_io_ratio, io_delay 0 turns the share off, so it is not a no-op
+    if design.get("dep_io_ratio"):
+        return
+    for key in [k for k in design if k.startswith("deps.") and k.endswith(".io_delay")]:
+        if not design[key]:
+            del design[key]
+
+
+DERIVATIONS = [derive_field_width, drop_default_deps]
 
 # --- filters: (design) -> reason to skip, or None to keep ---
 
@@ -47,7 +58,36 @@ def filter_arb_field_fixed_q(design):
     return None
 
 
-FILTERS = [filter_arb_field_fixed_q]
+def filter_cyclone_field(design):
+    "The CycloneMSM formula is written for one curve, BLS12-377 in TE form"
+    if design.get("padd_te_form") == "padd_te_cyclone" and design.get("field") != "bls12_377_on_te_base":
+        return "padd_te_cyclone is for bls12_377_on_te only"
+    return None
+
+
+def filter_point_scalar_field(design):
+    "Only a curve's base field carries the coefficients a point formula needs"
+    point = "pdbl_form" in design or "padd_te_form" in design
+    if point and design.get("field", "").endswith("_scalar"):
+        return "point kernels need the curve's base field"
+    return None
+
+
+def filter_pdbl_form(design):
+    "A doubling formula for one a computes the wrong point on any other curve"
+    form, field = design.get("pdbl_form"), design.get("field")
+    if form in (None, "pdbl_avar") or not field or field.endswith("_scalar"):
+        return None
+    f = get_field(field)
+    q, a = int(f["q"]["val"], 16), int(f["a"]["val"], 16)
+    wanted = {"pdbl_a0": 0, "pdbl_a2": 2, "pdbl_a3": q - 3}[form]
+    if a != wanted:
+        return f"{form} does not match the curve's a"
+    return None
+
+
+FILTERS = [filter_arb_field_fixed_q, filter_cyclone_field, filter_point_scalar_field,
+           filter_pdbl_form]
 
 # Params keyed by n rather than swept directly
 WIDTH_MAPS = ("base_mul_width", "kar_base_mul_width")
@@ -80,9 +120,9 @@ def _apply_width_maps(sweep, design):
         yield out
 
 
-def flatten_sweep(sweep, path, reuse=False):
+def flatten_sweep(sweeps, path, reuse=False):
     """
-    Expand a sweep config into a list of designs
+    Expand the sweeps of a sweep config into a list of designs
     """
 
     # Reuse an existing flattened sweep stored in json file
@@ -93,28 +133,36 @@ def flatten_sweep(sweep, path, reuse=False):
         stored = json.loads(path.read_text())["sweep"]
         return [Design(d) for d in stored]
 
-    # A parameter the sweep leaves out is not part of any design, so a kernel
-    # that has no use for it carries nothing for it either
-    keys = [k for k in sweep if k not in WIDTH_MAPS and sweep[k] is not None]
     designs, seen, skipped = [], set(), {}
+    # A sweep file gives one sweep per variant; each is crossed on its own
+    for sweep in sweeps:
+        # Each per-child setting is one more axis, as deps.<kernel>.<setting>
+        sweep = dict(sweep)
+        for kernel, settings in (sweep.pop("deps", None) or {}).items():
+            for name, values in settings.items():
+                sweep[f"deps.{kernel}.{name}"] = values
 
-    for combo in product(*(sweep[k] for k in keys)):
-        design = dict(zip(keys, combo))
+        # A parameter the sweep leaves out is not part of any design, so a kernel
+        # that has no use for it carries nothing for it either
+        keys = [k for k in sweep if k not in WIDTH_MAPS and sweep[k] is not None]
 
-        for derive in DERIVATIONS:
-            derive(design)
+        for combo in product(*(sweep[k] for k in keys)):
+            design = dict(zip(keys, combo))
 
-        reason = next((r for f in FILTERS if (r := f(design))), None)
-        if reason:
-            skipped[reason] = skipped.get(reason, 0) + 1
-            continue
+            for derive in DERIVATIONS:
+                derive(design)
 
-        for out in _apply_width_maps(sweep, design):
-            # Derivations can collapse distinct combinations onto one design
-            key = tuple(sorted(out.items()))
-            if key not in seen:
-                seen.add(key)
-                designs.append(Design(out))
+            reason = next((r for f in FILTERS if (r := f(design))), None)
+            if reason:
+                skipped[reason] = skipped.get(reason, 0) + 1
+                continue
+
+            for out in _apply_width_maps(sweep, design):
+                # Derivations, and two variants, can give the same design twice
+                key = tuple(sorted(out.items()))
+                if key not in seen:
+                    seen.add(key)
+                    designs.append(Design(out))
 
     for reason, count in skipped.items():
         logging.warning(f"Skipped {count} design(s): {reason}")

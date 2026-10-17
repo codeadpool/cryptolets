@@ -2,7 +2,7 @@ import random
 
 from tessera.samples import get_rng, get_q, get_rc, write_csvs
 from reference.ec import ShortWeierstrass
-from reference.coordinates import PointInfinity
+from reference.coordinates import PointInfinity, affine_to_jacobian
 
 
 def generate(design, sweep_flags):
@@ -25,9 +25,12 @@ def generate(design, sweep_flags):
         if R is PointInfinity:
             continue
 
-        # The testbench moves the points into the Montgomery domain when the
-        # design needs it, so the samples and goldens are plain
-        samples.append((P.x, P.y, Q.x, Q.y, q, rc))
+        # The inputs get their own random Z, also an equal pair, so the
+        # doubling check must compare points, not coordinates. The goldens
+        # stay affine; the testbench normalizes the output to compare.
+        P0 = affine_to_jacobian(P, q)
+        P1 = affine_to_jacobian(Q, q)
+        samples.append((*P0.as_tuple(), *P1.as_tuple(), q, rc))
         goldens.append((R.x, R.y))
 
     write_csvs(samples, goldens, design.build_dir)

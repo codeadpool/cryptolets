@@ -2,7 +2,7 @@ import random
 
 from tessera.samples import get_rng, get_q, get_rc, write_csvs
 from reference.ec import ShortWeierstrass
-from reference.coordinates import PointInfinity
+from reference.coordinates import PointInfinity, affine_to_jacobian
 
 
 def generate(design, sweep_flags):
@@ -23,7 +23,9 @@ def generate(design, sweep_flags):
         if R is PointInfinity:
             continue
 
-        samples.append((P.x, P.y, q, rc))
+        # The input gets a random Z. The golden stays affine; the testbench
+        # normalizes the output to compare.
+        samples.append((*affine_to_jacobian(P, q).as_tuple(), q, rc))
         goldens.append((R.x, R.y))
 
     write_csvs(samples, goldens, design.build_dir)

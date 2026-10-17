@@ -26,6 +26,7 @@ Sweep design parameters:
 - `tech_type` — the target technology node or FPGA part
 - `ii` — the initiation interval, the number of cycles between two accepted inputs
 - `dep_period_ratio` — the clock period of a blackboxed child, as a ratio of `period`
+- `dep_io_ratio` — the share of a blackboxed child's period kept for the parent's logic at each port
 
 ### General addition
 
@@ -33,7 +34,7 @@ Sweep design parameters:
 
 ### CycloneMSM addition
 
-`padd_te_cyclone` is the formula used by CycloneMSM [2], `add-2008-hwcd-3`, a unified addition formula that requires $a = -1$. The coefficient $a$ then disappears, and the single remaining constant is $k = 2d$, so the formula has one constant multiplication instead of two and fewer operations overall. Curves such as Ed25519 are defined with $a = -1$ for this reason.
+`padd_te_cyclone` is the addition formula of CycloneMSM [2], `add-2008-hwcd-3`. It is for the `bls12_377_on_te` curve only: BLS12-377 in twisted Edwards form with $a = -1$, as CycloneMSM defines it. The sweep skips this formula for any other field. The formula needs $a = -1$, so the coefficient $a$ disappears, and the single remaining constant is $k = 2d$. As a result, it has one constant multiplication instead of two, and fewer operations overall.
 
 ## Dependencies
 

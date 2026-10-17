@@ -19,7 +19,15 @@ def resolve_kernels(kernels, kernel_name):
         resolve_kernels(kernels, dep)
 
 
-def child_design(parent, params, child_kernel):
+def descendants(graph, name):
+    "Every kernel a kernel blackboxes, at any depth"
+    below = set()
+    for dep in graph[name]:
+        below |= {dep} | descendants(graph, dep)
+    return below
+
+
+def child_design(parent, params, child_kernel, below=()):
     """
     A child design: the parent's values for the child's design key, then
     the template arguments the compiler gave the child, then the hardware
@@ -31,12 +39,28 @@ def child_design(parent, params, child_kernel):
 
     for param in HW_CONSTRAINTS_PARAMS:
         design[param] = parent.design[param]
-    design["period"] = parent.design["dep_period_ratio"] * parent.design["period"]
 
-    # The parent keeps io_delay of the child's period at each child port
+    deps = {k: v for k, v in parent.design.items() if k.startswith("deps.")}
+    own = f"deps.{child_kernel.name}."
+
+    # deps gives this kernel exact times; otherwise the ratios apply, per level
+    design["period"] = deps.get(own + "period",
+                                parent.design["dep_period_ratio"] * parent.design["period"])
+
+    # The parent's own io_delay is its parent's split, not this child's
+    design.pop("io_delay", None)
+    io_delay = deps.get(own + "io_delay")
     if "dep_io_ratio" in parent.design:
         design["dep_io_ratio"] = parent.design["dep_io_ratio"]
-        design["io_delay"] = round(parent.design["dep_io_ratio"] * design["period"], 4)
+        if io_delay is None:
+            # The parent keeps this share of the child's period at each child port
+            io_delay = round(parent.design["dep_io_ratio"] * design["period"], 4)
+    if io_delay:
+        design["io_delay"] = io_delay
+
+    # Only the settings of kernels below travel down, so a change for one
+    # kernel never renames the builds of a kernel it does not reach
+    design.update({k: v for k, v in deps.items() if k.split(".")[1] in below})
 
     child = Design(design)
     # The parent already holds the structs the child's refs point at
@@ -47,7 +71,7 @@ def child_design(parent, params, child_kernel):
     return child
 
 
-def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs):
+def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs, graph):
     "Add the child designs each parent design instantiates, deduplicated"
     for parent in parent_designs.values():
         instances = live_instances(parent, parent_kernel)
@@ -59,8 +83,9 @@ def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs):
                 continue
 
             child_kernel = kernels[child_name]
+            below = descendants(graph, child_name)
             for params in instances[child_name]:
-                child = child_design(parent, params, child_kernel)
+                child = child_design(parent, params, child_kernel, below)
                 key = child.get_hash(child_kernel.config.design_key)
                 child = kernel_designs[child_name].setdefault(key, child)
                 parent.deps.setdefault(child_name, {})[key] = child
@@ -73,6 +98,19 @@ def get_schedule(kernel_name: str, designs: list[Design]):
     graph = {name: kernel.config.blackbox for name, kernel in kernels.items()}
     order = list(TopologicalSorter(graph).static_order())
 
+    # Only a blackboxed child is built on its own; an inlined one takes its
+    # parent's timing, so a setting for it would silently do nothing
+    below = descendants(graph, kernel_name)
+    named = {k.split(".")[1] for d in designs for k in d.design if k.startswith("deps.")}
+    for name in sorted(named - below):
+        logging.warning(f"deps.{name}: {name} is not blackboxed under {kernel_name}, "
+                        f"so its settings have no effect")
+    # Drop those settings, so they add nothing to the hash
+    for design in designs:
+        for key in [k for k in design.design if k.startswith("deps.")]:
+            if key.split(".")[1] not in below:
+                del design.design[key]
+
     # name -> hash -> Design, so each kernel holds a design once
     kernel_designs = {name: {} for name in order}
     design_key = kernels[kernel_name].config.design_key
@@ -84,6 +122,6 @@ def get_schedule(kernel_name: str, designs: list[Design]):
         for design in kernel_designs[name].values():
             design.attach(kernels[name])
             design.uses_blackboxes = bool(graph[name])
-        resolve_designs(kernels[name], kernel_designs[name], kernels, kernel_designs)
+        resolve_designs(kernels[name], kernel_designs[name], kernels, kernel_designs, graph)
 
     return [(kernels[name], list(kernel_designs[name].values())) for name in order]
