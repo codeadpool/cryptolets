@@ -74,20 +74,35 @@ def filter_point_scalar_field(design):
 
 
 def filter_pdbl_form(design):
-    "A doubling formula for one a computes the wrong point on any other curve"
+    """
+    A doubling formula for one a computes the wrong point on any other curve.
+    pdbl_avar multiplies by a, which Catapult cannot build for a = 0, so it
+    only runs where a has no dedicated formula.
+    """
     form, field = design.get("pdbl_form"), design.get("field")
-    if form in (None, "pdbl_avar") or not field or field.endswith("_scalar"):
+    if form is None or not field or field.endswith("_scalar"):
         return None
     f = get_field(field)
     q, a = int(f["q"]["val"], 16), int(f["a"]["val"], 16)
-    wanted = {"pdbl_a0": 0, "pdbl_a2": 2, "pdbl_a3": q - 3}[form]
-    if a != wanted:
+    dedicated = {"pdbl_a0": 0, "pdbl_a2": 2, "pdbl_a3": q - 3}
+    if form == "pdbl_avar":
+        if a in dedicated.values():
+            return "pdbl_avar is for curves without a dedicated formula; use pdbl_a0/a2/a3"
+        return None
+    if a != dedicated[form]:
         return f"{form} does not match the curve's a"
     return None
 
 
+def filter_var_coef(design):
+    "Only the TE add formulas read a curve coefficient, so var_coef means nothing elsewhere"
+    if design.get("coef_type") == "var_coef" and "padd_te_form" not in design:
+        return "var_coef is only for the TE add, whose formulas read a coefficient"
+    return None
+
+
 FILTERS = [filter_arb_field_fixed_q, filter_cyclone_field, filter_point_scalar_field,
-           filter_pdbl_form]
+           filter_pdbl_form, filter_var_coef]
 
 # Params keyed by n rather than swept directly
 WIDTH_MAPS = ("base_mul_width", "kar_base_mul_width")

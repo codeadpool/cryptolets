@@ -42,7 +42,7 @@ Sweep design parameters:
 
 ### Any a
 
-`pdbl_avar` is `dbl-2007-bl`, which works for any $a$ at the cost of one constant multiplication by $a$, built from a `l1_mod_cmul`.
+`pdbl_avar` is `dbl-2007-bl`, which works for any $a$ at the cost of one constant multiplication by $a$, built from a `l1_mod_cmul`. It is used only for curves whose $a$ has no dedicated formula. The sweep skips it for the other curves.
 
 ## Dependencies
 

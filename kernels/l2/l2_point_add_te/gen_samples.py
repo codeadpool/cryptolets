@@ -1,6 +1,6 @@
 import random
 
-from tessera.samples import get_rng, get_q, get_rc, write_csvs
+from tessera.samples import get_rng, get_q, get_rc, get_coef, write_csvs
 from reference.ec import TwistedEdwards
 from reference.coordinates import PointInfinity, affine_to_extended_projective
 
@@ -12,6 +12,7 @@ def generate(design, sweep_flags):
 
     q = get_q(design)
     rc = get_rc(design)
+    coefs = [get_coef(design, name) for name in ("a", "d", "k")]
 
     field = design.structs[design.design["field"]]
     curve = TwistedEdwards(q, int(field["a"]["val"], 16), int(field["d"]["val"], 16))
@@ -26,7 +27,7 @@ def generate(design, sweep_flags):
         # The goldens stay affine; the testbench normalizes the output to compare.
         P0 = affine_to_extended_projective(P, q)
         P1 = affine_to_extended_projective(Q, q)
-        samples.append((*P0.as_tuple(), *P1.as_tuple(), q, rc))
+        samples.append((*P0.as_tuple(), *P1.as_tuple(), q, rc, *coefs))
         goldens.append((R.x, R.y))
 
     write_csvs(samples, goldens, design.build_dir)

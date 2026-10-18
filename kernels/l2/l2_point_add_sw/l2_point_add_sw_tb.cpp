@@ -28,15 +28,15 @@ vector<string> run_per_row(vector<string>& samples_row) {
   PointJac<FIELD> R;
   CCS_DESIGN(l2_point_add_sw_top) dut;
 
-#if Q_TYPE == FIXED_Q && RC_TYPE == FIXED_RC
-  dut.run(P0, P1, R);
-#elif Q_TYPE == FIXED_Q
-  dut.run(P0, P1, rc, R);
-#elif RC_TYPE == FIXED_RC
-  dut.run(P0, P1, q, R);
-#else
-  dut.run(P0, P1, q, rc, R);
+  // q and rc are ports only when they are variable
+  dut.run(P0, P1,
+#if Q_TYPE != FIXED_Q
+          q,
 #endif
+#if RC_TYPE != FIXED_RC
+          rc,
+#endif
+          R);
 
 #if MRED == MRED_MONT
   R = from_mont<FIELD>(R, q);

@@ -9,8 +9,8 @@
 #include "l1_mod_add_impl.h"
 #include "l1_mod_sub_impl.h"
 
-// Twisted Edwards addition, extended projective
-template<class _FIELD, int _MRED>
+// Twisted Edwards addition, extended projective.
+template<class _FIELD, int _MRED, int _COEF_TYPE>
 class l2_point_add_te_add {
     l1_mod_mul_impl<_FIELD, _MRED>          modmul_inst;
     l1_mod_add_impl<_FIELD>                 modadd_inst;
@@ -28,12 +28,15 @@ public:
         const PointExtProj<_FIELD> P0,
         const PointExtProj<_FIELD> P1,
         const fe q, const rc_t rc,
+        const fe a, const fe d,
         PointExtProj<_FIELD> &R
     ) {
         fe A, B, t0, C, D, t1, t2, t3, t4, E, F, G, t5, H;
         modmul_inst.run(P0.X, P1.X, q, rc, A);       // A = X1*X2
         modmul_inst.run(P0.Y, P1.Y, q, rc, B);       // B = Y1*Y2
-        if constexpr (_MRED == MRED_MONT) {          // t0 = d*T2
+        if constexpr (_COEF_TYPE == VAR_COEF) {      // t0 = d*T2
+            modmul_inst.run(P1.T, d, q, rc, t0);
+        } else if constexpr (_MRED == MRED_MONT) {
             cmul_d_mont_inst.run(P1.T, q, rc, t0);
         } else {
             cmul_d_inst.run(P1.T, q, rc, t0);
@@ -47,7 +50,9 @@ public:
         modsub_inst.run(t4, B, q, E);                // E = t4-B
         modsub_inst.run(D, C, q, F);                 // F = D-C
         modadd_inst.run(D, C, q, G);                 // G = D+C
-        if constexpr (_MRED == MRED_MONT) {          // t5 = a*A
+        if constexpr (_COEF_TYPE == VAR_COEF) {      // t5 = a*A
+            modmul_inst.run(A, a, q, rc, t5);
+        } else if constexpr (_MRED == MRED_MONT) {
             cmul_a_mont_inst.run(A, q, rc, t5);
         } else {
             cmul_a_inst.run(A, q, rc, t5);

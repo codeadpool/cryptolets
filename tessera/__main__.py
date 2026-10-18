@@ -12,15 +12,11 @@ from tessera import scaffold
 # Use defaults from config.yaml
 run_conf = yaml.safe_load(Path(RUN_CONFIG_FILE).read_text())
 
-# Set up logging, keeping each run's log beside the builds
-RUNS_DIR.mkdir(parents=True, exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-    handlers=[logging.StreamHandler(),
-              logging.FileHandler(RUNS_DIR / f"run_{datetime.now():%Y%m%d_%H%M%S}.log")],
-)
+LOG_FORMAT = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
+
+# Set up logging to the screen; only a run also keeps a log beside the builds
+logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler()])
+logging.getLogger().handlers[0].setFormatter(LOG_FORMAT)
 
 CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
@@ -46,6 +42,10 @@ def app():
 def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume, verbose):
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    log_file = logging.FileHandler(RUNS_DIR / f"run_{datetime.now():%Y%m%d_%H%M%S}.log")
+    log_file.setFormatter(LOG_FORMAT)
+    logging.getLogger().addHandler(log_file)
     core.run(
         kernel=kernel,
         threads=threads,

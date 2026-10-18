@@ -22,6 +22,9 @@ vector<string> run_per_row(vector<string>& samples_row) {
   P1.T = parse_ac_int<BITWIDTH>(samples_row[7]);
   ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[8]);
   ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[9]);
+  ac_int<BITWIDTH, false> a = parse_ac_int<BITWIDTH>(samples_row[10]);
+  ac_int<BITWIDTH, false> d = parse_ac_int<BITWIDTH>(samples_row[11]);
+  ac_int<BITWIDTH, false> k = parse_ac_int<BITWIDTH>(samples_row[12]);
 
 #if MRED == MRED_MONT
   P0 = to_mont<FIELD>(P0, q);
@@ -31,15 +34,18 @@ vector<string> run_per_row(vector<string>& samples_row) {
   PointExtProj<FIELD> R;
   CCS_DESIGN(l2_point_add_te_top) dut;
 
-#if Q_TYPE == FIXED_Q && RC_TYPE == FIXED_RC
-  dut.run(P0, P1, R);
-#elif Q_TYPE == FIXED_Q
-  dut.run(P0, P1, rc, R);
-#elif RC_TYPE == FIXED_RC
-  dut.run(P0, P1, q, R);
-#else
-  dut.run(P0, P1, q, rc, R);
+  // q, rc and the coefficients are ports only when they are variable
+  dut.run(P0, P1,
+#if Q_TYPE != FIXED_Q
+          q,
 #endif
+#if RC_TYPE != FIXED_RC
+          rc,
+#endif
+#if COEF_TYPE == VAR_COEF
+          a, d, k,
+#endif
+          R);
 
 #if MRED == MRED_MONT
   R = from_mont<FIELD>(R, q);

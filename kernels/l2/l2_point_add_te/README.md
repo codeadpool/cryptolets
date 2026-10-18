@@ -9,6 +9,7 @@ Addition of two points on an elliptic curve. This kernel targets the Twisted Edw
 | `P1` | in        | `PointExtProj`, four `FIELD::W` coordinates |
 | `q`  | in        | `FIELD::W`, only with `var_q` |
 | `rc` | in        | `FIELD::W` |
+| `a`, `d`, `k` | in | `FIELD::W` each, only with `var_coef`. The formula leaves a coefficient it does not read unconnected |
 | `R`  | out       | `PointExtProj`, four `FIELD::W` coordinates |
 
 Sweep design parameters:
@@ -19,6 +20,7 @@ Sweep design parameters:
 - `mred` — the reduction algorithm: `mred_mont` or `mred_bar`
 - `q_type` — `fixed_q` or `var_q`
 - `rc_type` — `fixed_rc` or `var_rc`
+- `coef_type` — `fixed_coef` bakes the curve coefficients into the hardware as constant multiplications. `var_coef` takes them as ports and multiplies with a modmul, so one design can serve other curves of the same width. Without `coef_type`, the coefficients are fixed
 - `mul_type` — the multiplier structure: `mul_nor`, `mul_sb` or `mul_kar`
 - `base_mul_width` — the operand width at which the recursion stops and a native multiplier is used
 - `kar_base_mul_width` — the operand width at which Karatsuba switches to schoolbook

@@ -10,7 +10,7 @@
 #include "l1_mod_sub_impl.h"
 
 // Twisted Edwards point addition from CycloneMSM paper.
-template<class _FIELD, int _MRED=MRED>
+template<class _FIELD, int _MRED, int _COEF_TYPE>
 class l2_point_add_te_cyclone {
     l1_mod_mul_impl<_FIELD, _MRED>          modmul_inst;
     l1_mod_add_impl<_FIELD>                 modadd_inst;
@@ -26,6 +26,7 @@ public:
         const PointExtProj<_FIELD> P0,
         const PointExtProj<_FIELD> P1,
         const fe q, const rc_t rc,
+        const fe k,
         PointExtProj<_FIELD> &R
     ) {
         fe t0, t1, A, t2, t3, B, t4, C, t5, D, E, F, G, H;
@@ -35,7 +36,9 @@ public:
         modadd_inst.run(P0.Y, P0.X, q, t2);          // t2 = Y1+X1
         modadd_inst.run(P1.Y, P1.X, q, t3);          // t3 = Y2+X2
         modmul_inst.run(t2, t3, q, rc, B);           // B = t2*t3
-        if constexpr (_MRED == MRED_MONT) {          // t4 = k*T2
+        if constexpr (_COEF_TYPE == VAR_COEF) {      // t4 = k*T2
+            modmul_inst.run(P1.T, k, q, rc, t4);
+        } else if constexpr (_MRED == MRED_MONT) {
             cmul_k_mont_inst.run(P1.T, q, rc, t4);
         } else {
             cmul_k_inst.run(P1.T, q, rc, t4);

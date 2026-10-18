@@ -4,7 +4,14 @@ baked into the hardware, read from the field struct.
 """
 
 
+# One coef_type sets all curve coefficients. A formula that does not read one
+# leaves that port unconnected.
+COEF_PORTS = ("a", "d", "k")
+
+
 def is_fixed(port, design):
+    if port in COEF_PORTS:
+        return design.get("coef_type") != "var_coef"
     return design.get(f"{port}_type") == f"fixed_{port}"
 
 

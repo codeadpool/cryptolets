@@ -64,6 +64,9 @@ class Sweep(BaseModel):
     pdbl_form: Optional[list[Literal["pdbl_a0", "pdbl_a2", "pdbl_a3", "pdbl_avar"]]] = None
     padd_te_form: Optional[list[Literal["padd_te_add", "padd_te_cyclone"]]] = None
 
+    # fixed bakes the curve coefficients into the hardware, var takes them as ports
+    coef_type: Optional[list[Literal["fixed_coef", "var_coef"]]] = None
+
     # Keyed by n, e.g. {16: [8, 16], 32: [16, 32]}
     # TODO: We can autogenerate this list given rough base width constraint
     base_mul_width: Optional[dict[int, list[int]]] = None

@@ -49,6 +49,13 @@ def get_rc(design):
     return int(design.structs[field][const]["val"], 16)
 
 
+def get_coef(design, name):
+    "A curve coefficient (a, d or k), in the form the design multiplies by"
+    field = design.design["field"]
+    const = fixed_member(name, design.design)
+    return int(design.structs[field][const]["val"], 16)
+
+
 def get_cmul_const(design):
     struct = design.get_param_struct("cmul_const")
     return struct["w"], int(struct["val"], 16)
