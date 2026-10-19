@@ -26,7 +26,7 @@ sweep:
     512: [256, 128, 64]
 
   # fixed bakes the constant into the hardware, var takes it as a port
-  q_type: [var_q]
+  q_type: [fixed_q]
   rc_type: [var_rc]
 
   # Which modular reduction the multiply uses

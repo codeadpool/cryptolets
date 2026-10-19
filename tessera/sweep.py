@@ -58,6 +58,21 @@ def filter_arb_field_fixed_q(design):
     return None
 
 
+def filter_arb_field_fixed_rc(design):
+    "The reduction constant follows from the random prime, so fixing it tests nothing more"
+    if design.get("field", "").startswith(ARB_FIELD) and design.get("rc_type") == "fixed_rc":
+        return "arb_field has no meaningful fixed reduction constant"
+    return None
+
+
+def filter_arb_field_fixed_coef(design):
+    "arb_field's curve coefficients are placeholders, so baking them in describes no curve"
+    if (design.get("field", "").startswith(ARB_FIELD) and "padd_te_form" in design
+            and design.get("coef_type") != "var_coef"):
+        return "arb_field has no meaningful fixed curve coefficients; use var_coef"
+    return None
+
+
 def filter_cyclone_field(design):
     "The CycloneMSM formula is written for one curve, BLS12-377 in TE form"
     if design.get("padd_te_form") == "padd_te_cyclone" and design.get("field") != "bls12_377_on_te_base":
@@ -101,8 +116,40 @@ def filter_var_coef(design):
     return None
 
 
-FILTERS = [filter_arb_field_fixed_q, filter_cyclone_field, filter_point_scalar_field,
-           filter_pdbl_form, filter_var_coef]
+def _reads_fixed_coef(design):
+    "A curve constant baked into the hardware ties it to its field"
+    if "cmul_const" in design:
+        return True
+    # pdbl_avar always multiplies by the field's a as a constant
+    if design.get("pdbl_form") == "pdbl_avar":
+        return True
+    return "padd_te_form" in design and design.get("coef_type") != "var_coef"
+
+
+def filter_generic_named_field(design):
+    """
+    With q and rc as ports and no curve constant baked in, a named field
+    builds the same hardware as an arb_field of its width. Kept when that
+    arb_field design is itself invalid, e.g. pdbl_a2 on arb_field's a = 0,
+    since then nothing else covers it.
+    """
+    field = design.get("field")
+    if not field or field.startswith(ARB_FIELD):
+        return None
+    if design.get("q_type") != "var_q" or design.get("rc_type") != "var_rc":
+        return None
+    if _reads_fixed_coef(design):
+        return None
+    twin = dict(design, field=f"{ARB_FIELD}_{design['bitwidth']}")
+    if any(f(twin) for f in FILTERS if f is not filter_generic_named_field):
+        return None
+    return "named field with var_q and var_rc is generic; the arb_field design of its width covers it"
+
+
+FILTERS = [filter_arb_field_fixed_q, filter_arb_field_fixed_rc, filter_arb_field_fixed_coef,
+           filter_cyclone_field,
+           filter_point_scalar_field, filter_pdbl_form, filter_var_coef,
+           filter_generic_named_field]
 
 # Params keyed by n rather than swept directly
 WIDTH_MAPS = ("base_mul_width", "kar_base_mul_width")
