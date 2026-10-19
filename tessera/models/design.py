@@ -77,7 +77,7 @@ class Design:
         keys = design_key or list(self.design)
         # Per-kernel timing changes the hardware below, whatever the kernel
         if design_key:
-            keys = [*keys, *sorted(k for k in self.design if k.startswith(("deps.", "catapult.")))]
+            keys = [*keys, *sorted(k for k in self.design if k.startswith(("deps.", "catapult.", "flags.")))]
 
         # A parameter the sweep did not give this design names nothing, so a
         # multiplier that never splits carries no base width

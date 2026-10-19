@@ -64,6 +64,9 @@ def child_design(parent, params, child_kernel, below=()):
     design.update({k: v for k, v in deps.items() if k.split(".")[1] in below})
     design.update({k: v for k, v in parent.design.items()
                    if k.startswith("catapult.") and k.split(".")[1] in {child_kernel.name, *below}})
+    for flag in ("flags.syn_passes", "flags.bb_syn_metrics"):
+        design[flag] = parent.design[flag]
+    design["flags.blackbox"] = ",".join(child_kernel.blackbox)
 
     child = Design(design)
     # The parent already holds the structs the child's refs point at
@@ -94,10 +97,10 @@ def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs, grap
                 parent.deps.setdefault(child_name, {})[key] = child
 
 
-def get_schedule(kernel_name: str, designs: list[Design], blackbox: dict[str, list[str]]):
+def get_schedule(kernel_name: str, designs: list[Design], flags: dict):
     "The kernels in build order, each with the designs it needs"
     kernels = {}
-    resolve_kernels(kernels, kernel_name, blackbox)
+    resolve_kernels(kernels, kernel_name, flags["blackbox"])
     graph = {name: kernel.blackbox for name, kernel in kernels.items()}
     order = list(TopologicalSorter(graph).static_order())
 
@@ -115,6 +118,12 @@ def get_schedule(kernel_name: str, designs: list[Design], blackbox: dict[str, li
             for key in [k for k in design.design if k.startswith(f"{block}.")]:
                 if key.split(".")[1] not in kernels_built:
                     del design.design[key]
+
+    # The flags that change the hardware name the build, so a change rebuilds
+    for design in designs:
+        design.design["flags.syn_passes"] = flags["syn_passes"]
+        design.design["flags.bb_syn_metrics"] = flags["bb_syn_metrics"]
+        design.design["flags.blackbox"] = ",".join(kernels[kernel_name].blackbox)
 
     # name -> hash -> Design, so each kernel holds a design once
     kernel_designs = {name: {} for name in order}

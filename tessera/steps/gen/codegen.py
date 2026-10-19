@@ -27,7 +27,7 @@ def gen_params_h(design, out_dir=None):
     defines, usings = {}, {}
     for param, value in design.design.items():
         # Constraints steer the tools, not the C++, so they stay out of params.h
-        if param in HW_CONSTRAINTS_PARAMS or param == "io_delay" or param.startswith(("deps.", "catapult.")):
+        if param in HW_CONSTRAINTS_PARAMS or param == "io_delay" or param.startswith(("deps.", "catapult.", "flags.")):
             continue
         if param in PARAMS_MAPPED_TO_STRUCT:
             # A struct ref becomes a type alias, e.g.

@@ -110,7 +110,7 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
         logging.debug(f"  [{i}/{len(flattened_sweep)}] {design.get_name()}")
 
     # automatic dependency resolution and scheduling
-    schedule = get_schedule(kernel, flattened_sweep, sweep_conf.flags.blackbox)
+    schedule = get_schedule(kernel, flattened_sweep, sweep_flags)
 
     # A C++ test runs the children's C++, so it needs neither their builds
     # nor the blackbox headers that stand in for them
