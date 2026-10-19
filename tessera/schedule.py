@@ -58,9 +58,11 @@ def child_design(parent, params, child_kernel, below=()):
     if io_delay:
         design["io_delay"] = io_delay
 
-    # Only the settings of kernels below travel down, so a change for one
-    # kernel never renames the builds of a kernel it does not reach
+    # A child carries only the settings of kernels it reaches, so a change for
+    # one kernel never renames the builds of another
     design.update({k: v for k, v in deps.items() if k.split(".")[1] in below})
+    design.update({k: v for k, v in parent.design.items()
+                   if k.startswith("catapult.") and k.split(".")[1] in {child_kernel.name, *below}})
 
     child = Design(design)
     # The parent already holds the structs the child's refs point at
@@ -98,18 +100,20 @@ def get_schedule(kernel_name: str, designs: list[Design]):
     graph = {name: kernel.config.blackbox for name, kernel in kernels.items()}
     order = list(TopologicalSorter(graph).static_order())
 
-    # Only a blackboxed child is built on its own; an inlined one takes its
-    # parent's timing, so a setting for it would silently do nothing
+    # Only the target and its blackboxed children are built on their own; a
+    # setting for an inlined kernel would silently do nothing
     below = descendants(graph, kernel_name)
-    named = {k.split(".")[1] for d in designs for k in d.design if k.startswith("deps.")}
-    for name in sorted(named - below):
-        logging.warning(f"deps.{name}: {name} is not blackboxed under {kernel_name}, "
-                        f"so its settings have no effect")
-    # Drop those settings, so they add nothing to the hash
-    for design in designs:
-        for key in [k for k in design.design if k.startswith("deps.")]:
-            if key.split(".")[1] not in below:
-                del design.design[key]
+    built = {"deps": below, "catapult": below | {kernel_name}}
+    for block, kernels_built in built.items():
+        named = {k.split(".")[1] for d in designs for k in d.design if k.startswith(f"{block}.")}
+        for name in sorted(named - kernels_built):
+            logging.warning(f"{block}.{name}: {name} is not built on its own under "
+                            f"{kernel_name}, so its settings have no effect")
+        # Dropped, so they add nothing to the hash
+        for design in designs:
+            for key in [k for k in design.design if k.startswith(f"{block}.")]:
+                if key.split(".")[1] not in kernels_built:
+                    del design.design[key]
 
     # name -> hash -> Design, so each kernel holds a design once
     kernel_designs = {name: {} for name in order}

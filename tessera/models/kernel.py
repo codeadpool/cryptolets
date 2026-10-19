@@ -15,7 +15,7 @@ class KernelConfig(BaseModel):
     # designs for given kernel which perform the same arithmetic operation 
     design_key: list[str] = []
     kernel_key: list[str] = [] # parameters specific to the kernel
-    stages: dict[str, str] = {}
+    states: dict[str, str] = {} # TCL per Catapult state, from kernel.yaml
     fields: list[str] = [] # Fields the impl names directly, beyond the design's own
     structs: dict[str, dict] = {} # Structs the kernel defines itself
     force_combinational: bool = False # Skip the latency check, build as one combinational block

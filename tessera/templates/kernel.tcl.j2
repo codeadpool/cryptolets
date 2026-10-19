@@ -23,14 +23,18 @@ options set Cache/UserCacheHome [file join $design_build_dir ccore_cache]
 options set Cache/DefaultCacheHomeEnabled false
 project new
 solution rename $kernel_name
-{% for stage in stages %}
-# --- {{ stage.name }} ---
-{% if stage.body %}{{ stage.body }}
+{% for state in states %}
+# --- {{ state.name }} ---
+{% if state.body %}{{ state.body }}
 {% endif %}
-go {{ stage.name }}
-{% if stage.save_table %}save_table [file join $design_build_dir reports metrics.csv]
+# The sweep's directives come last, so they win over the defaults above
+if {[info exists catapult_directives({{ state.name }})]} {
+    foreach {name value} $catapult_directives({{ state.name }}) { directive set -$name $value }
+}
+go {{ state.name }}
+{% if state.save_table %}save_table [file join $design_build_dir reports metrics.csv]
 {% endif %}
-{% if stage.name == "schedule" %}# A kernel that schedules in one cycle holds no state, so it is worth
+{% if state.name == "schedule" %}# A kernel that schedules in one cycle holds no state, so it is worth
 # rebuilding as a combinational CCORE. Anything else continues as it is.
 if {$comb_chk && [latency_is_one $design_build_dir]} { exit 2 }
 {% endif %}

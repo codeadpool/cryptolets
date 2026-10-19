@@ -8,8 +8,8 @@ design_key: [bitwidth, tech_type, period, io_delay, ii]
 # could replace one another are compared
 kernel_key: [bitwidth]
 
-# Kernel specific stage scripts
-stages:
+# Kernel specific Catapult state scripts
+states:
   compile: |
     directive set -PIPELINE_INIT_INTERVAL $ii
     adder_tree_opt $tech_type

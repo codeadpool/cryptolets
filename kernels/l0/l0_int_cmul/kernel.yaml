@@ -14,8 +14,8 @@ kernel_key: [bitwidth, cmul_const, cmul_const_w, cmul_hamming, cmul_output_type]
 # DC decides whether it fits.
 force_combinational: true
 
-# Kernel specific stage scripts
-stages:
+# Kernel specific Catapult state scripts
+states:
   # simple_one_adder keeps the constant multiply as one multiply, which DC
   # maps to DesignWare. The default adder cluster takes DC hours at 381 bits.
   compile: |

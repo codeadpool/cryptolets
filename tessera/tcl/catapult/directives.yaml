@@ -1,0 +1,67 @@
+# Catapult directives a sweep can set per kernel, with their allowed values.
+# last_state is the latest Catapult state that accepts the directive (one of
+# CATAPULT_STATES); it is applied just before going to that state.
+
+CLOCK_OVERHEAD:  {type: float, max: 100, last_state: assembly}  # percent of the period kept free; may be negative
+ASSIGN_OVERHEAD: {type: int, max: 100, last_state: dpfsm}       # percent of the period with no sharing
+MAX_LATENCY:     {type: int, min: -1, last_state: architect}    # cycles; -1 is no limit
+SPECULATE:       {choices: ["true", "false", latency], last_state: architect}
+DESIGN_GOAL:     {choices: [area, latency], last_state: architect}
+EFFORT_LEVEL:    {choices: [medium, high, maximum], last_state: architect}
+COMPGRADE_ALL:   {choices: [fast, small, standard], last_state: architect}
+OPT_CONST_MULTS: {choices: [auto, full, simple_one_adder, power_of_2, use_library], last_state: compile}
+
+# Scheduling
+AREA_GOAL:             {type: float, min: 0, last_state: architect}
+SCHED_USE_MULTICYCLE:  {choices: ["true", "false"], last_state: memories}
+SCHEDULER_RETIMING:    {choices: ["true", "false"], last_state: memories}
+SCHEDULER_BEST_TRY:    {choices: ["true", "false"], last_state: memories}
+SCHED_USE_REG_DLY:     {choices: [use_library, "yes", "no"], last_state: memories}
+NO_FULL_CYCLE:         {choices: [use_library, "yes", "no"], last_state: memories}
+INCR_OP_CYCLES:        {choices: ["true", "false"], last_state: memories}
+ESTIMATE_LOGIC_DELAYS: {choices: [use_library, "yes", "no"], last_state: memories}
+ADVANCED_TIMING_MODEL: {choices: [estimation, "no", extract, schedule], last_state: memories}
+STAGE_IO_CNS:          {choices: [soft, "true", none, "false", hard], last_state: architect}
+
+# Datapath
+ADVANCED_DPOPT:                   {choices: ["true", "false"], last_state: assembly}
+ADVANCED_DPOPT_COMPLEXITY_EFFORT: {choices: [high, medium, low], last_state: assembly}
+LOGIC_OPT:                        {choices: ["true", "false"], last_state: analyze}
+LOGIC_OPT_WIDTH:                  {type: int, min: -1, last_state: analyze}
+LOGIC_SYNTHESIS:                  {choices: ["no", estimation, extract], last_state: analyze}
+MUX_PUSHING:                      {choices: ["no", "yes", force], last_state: memories}
+REDUNDANT_RTL_ELIMINATION:        {choices: ["true", "false"], last_state: memories}
+
+# Clustering. CLUSTER takes one structure here; Catapult also accepts a list
+CLUSTER:                            {choices: [multadd, addtree, square, mult], last_state: memories}
+CLUSTER_CSA_ARCH:                   {choices: [wordwise, dadda, wallace], last_state: memories}
+CLUSTER_FAST_MODE:                  {choices: ["true", "false"], last_state: memories}
+CLUSTER_INLINE:                     {choices: ["true", "false"], last_state: memories}
+CLUSTER_OPT_CONSTANT_INPUTS:        {choices: ["true", "false"], last_state: memories}
+CLUSTER_TYPE:                       {choices: [combinational, sequential, both], last_state: memories}
+CLUSTER_ADDTREE_IN_COUNT_THRESHOLD: {type: int, min: 1, last_state: memories}
+CLUSTER_ADDTREE_IN_WIDTH_THRESHOLD: {type: int, min: 1, last_state: memories}
+
+# Operator grades
+COMPGRADE_ADD:   {choices: [fast, small, standard], last_state: architect}
+COMPGRADE_MUL:   {choices: [fast, small, standard], last_state: architect}
+COMPGRADE_MUX:   {choices: [fast, small, standard], last_state: architect}
+COMPGRADE_SHIFT: {choices: [fast, small, standard], last_state: architect}
+USE_LIB_MUX:     {choices: ["true", "false"], last_state: architect}
+
+# Registers and sharing
+INPUT_REGISTERS:        {choices: ["true", "false"], last_state: assembly}
+OUTPUT_REGISTERS:       {choices: ["true", "false"], last_state: assembly}
+REALLOC:                {choices: ["true", "false"], last_state: dpfsm}
+INCR_RES_SHARING:       {choices: ["true", "false"], last_state: dpfsm}
+INCR_REG_SHARING:       {choices: ["true", "false"], last_state: schedule}
+REGISTER_SHARING_LIMIT: {type: int, min: 0, last_state: dpfsm}
+REG_MAX_FANOUT:         {type: int, min: 0, last_state: dpfsm}
+RESET_CLEARS_ALL_REGS:  {choices: [use_library, "yes", "no"], last_state: schedule}
+GATE_REGISTERS:         {choices: ["true", "false"], last_state: memories}
+
+# Child blocks (CCOREs)
+CCORE_POINTS: {type: int, min: 0, max: 10, last_state: memories}
+CCORE_TYPE:   {choices: [sequential, combinational], last_state: libraries}
+BOUNDARY_OPT: {choices: [ccore, "off"], last_state: libraries}
+CCORE_FLOW:   {choices: [topdown, bottomup, both], last_state: assembly}

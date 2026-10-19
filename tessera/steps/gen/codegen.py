@@ -7,25 +7,13 @@ from tessera.models.config import RunConfig
 from tessera.models.sweep import Sweep
 from tessera.templating import render
 from tessera.parser.common import norm_to_cpp_conv, strip_tmpl_prefix
+from tessera.models.common import load_catapult_directives
 from tessera.models.design import PARAMS_MAPPED_TO_STRUCT
 from tessera.models.ports import is_fixed, fixed_member
-from tessera.const import DWARE_DIR, HW_CONSTRAINTS_PARAMS, KERNELS_DIR
+from tessera.const import CATAPULT_STATES, DWARE_DIR, HW_CONSTRAINTS_PARAMS, KERNELS_DIR
 
-CATAPULT_STAGES = [
-    "new",
-    "analyze",
-    "compile",
-    "libraries",
-    "assembly",
-    "architect",
-    "allocate",
-    "schedule",
-    "dpfsm",
-    "extract",
-]
-
-# Catapult stages that save the table to a file
-SAVE_TABLE_STAGES = {"schedule", "dpfsm", "extract"}
+# Catapult states that save the table to a file
+SAVE_TABLE_STATES = {"schedule", "dpfsm", "extract"}
 
 
 def gen_params_h(design, out_dir=None):
@@ -39,7 +27,7 @@ def gen_params_h(design, out_dir=None):
     defines, usings = {}, {}
     for param, value in design.design.items():
         # Constraints steer the tools, not the C++, so they stay out of params.h
-        if param in HW_CONSTRAINTS_PARAMS or param == "io_delay" or param.startswith("deps."):
+        if param in HW_CONSTRAINTS_PARAMS or param == "io_delay" or param.startswith(("deps.", "catapult.")):
             continue
         if param in PARAMS_MAPPED_TO_STRUCT:
             # A struct ref becomes a type alias, e.g.
@@ -109,11 +97,26 @@ def gen_catapult_design_tcl(design, kernel, comb_chk=False, combinational=False)
         comb_chk=comb_chk,
         uses_blackboxes=design.uses_blackboxes,
         top_class=f"{kernel.name}_top" if combinational else kernel.name,
+        catapult_directives=directives_by_state(design, kernel),
     )
 
 
-def _stage_bodies(kernel, run_inst):
-    "Kernel-agnostic TCL per stage, before kernel.yaml additions are appended"
+def directives_by_state(design, kernel):
+    """
+    This kernel's sweep directives as state -> "NAME value ..." pairs. Each is
+    applied just before its last allowed state, when any object it names exists.
+    """
+    allowed = load_catapult_directives()
+    by_state = {}
+    for key, value in design.design.items():
+        if key.startswith(f"catapult.{kernel.name}."):
+            name = key.rsplit(".", 1)[1]
+            by_state.setdefault(allowed[name]["last_state"], []).append(f"{name} {value}")
+    return {state: " ".join(pairs) for state, pairs in by_state.items()}
+
+
+def _state_bodies(kernel, run_inst):
+    "Kernel-agnostic TCL per Catapult state, before kernel.yaml additions are appended"
     cpp_path = Path(run_inst.root_dir, 'tessera', 'cpp')
     cpp_src_path = cpp_path / 'src'
 
@@ -125,7 +128,7 @@ def _stage_bodies(kernel, run_inst):
     ]
     include_paths_str = "\n".join(f"  {p.resolve()}" for p in include_paths)
 
-    analyze_stage = [
+    analyze_state = [
         # The blackbox dir comes first, so a generated header shadows the
         # kernel's own when that dep is blackboxed.
         "options set Input/SearchPath [file join $design_build_dir blackbox impl] -append",
@@ -141,7 +144,7 @@ def _stage_bodies(kernel, run_inst):
         f"solution file add [file join {(cpp_src_path / 'tb_helper.cpp').resolve()}] -exclude true",
     ]
 
-    compile_stage = [
+    compile_state = [
         # A combinational kernel is wrapped, so the top class differs
         "solution design set $top_class.run -top",
         "directive set -CCORE_POINTS 1",
@@ -149,7 +152,7 @@ def _stage_bodies(kernel, run_inst):
         "directive set -OUTPUT_REGISTERS false",
     ]
 
-    libraries_stage = [
+    libraries_state = [
         "run_osci_test $test_cpp $test_cpp_only $design_build_dir",
         "set_tech_lib $tech_type $root_dir $tech_lib_path $tech_catapult_lib_name \
      $tech_vendor $tech_technology $tech_catapult_lib_file \
@@ -163,21 +166,22 @@ def _stage_bodies(kernel, run_inst):
         "}",
     ]
 
-    return {'analyze': analyze_stage, 'compile': compile_stage, 'libraries': libraries_stage}
+    return {'analyze': analyze_state, 'compile': compile_state, 'libraries': libraries_state}
+
 
 
 def gen_catapult_kernel_tcl(flags, kernel, run_inst):
-    bodies = _stage_bodies(kernel, run_inst)
-    for stage, body in kernel.config.stages.items():
-        bodies.setdefault(stage, []).extend(body.splitlines())
+    bodies = _state_bodies(kernel, run_inst)
+    for state, body in kernel.config.states.items():
+        bodies.setdefault(state, []).extend(body.splitlines())
 
-    stages = [
+    states = [
         {
-            'name': stage,
-            'body': "\n".join(bodies.get(stage, [])),
-            'save_table': stage in SAVE_TABLE_STAGES,
+            'name': state,
+            'body': "\n".join(bodies.get(state, [])),
+            'save_table': state in SAVE_TABLE_STATES,
         }
-        for stage in CATAPULT_STAGES
+        for state in CATAPULT_STATES
     ]
 
     tcl_dir = Path(run_inst.root_dir, 'tessera', 'tcl', 'catapult')
@@ -194,6 +198,6 @@ def gen_catapult_kernel_tcl(flags, kernel, run_inst):
         flags=flags,
         threads_per_process=run_inst.threads_per_process,
         vcd_size_limit=RunConfig.load().vcd_size_limit_mb,
-        stages=stages,
+        states=states,
         tools={k: str(Path(v).expanduser()) for k, v in RunConfig.load().tools.items()},
     )

@@ -151,11 +151,12 @@ def flatten_sweep(sweeps, path, reuse=False):
     designs, seen, skipped = [], set(), {}
     # A sweep file gives one sweep per variant; each is crossed on its own
     for sweep in sweeps:
-        # Each per-child setting is one more axis, as deps.<kernel>.<setting>
+        # Each per-kernel setting is one more axis, as <block>.<kernel>.<setting>
         sweep = dict(sweep)
-        for kernel, settings in (sweep.pop("deps", None) or {}).items():
-            for name, values in settings.items():
-                sweep[f"deps.{kernel}.{name}"] = values
+        for block in ("deps", "catapult"):
+            for kernel, settings in (sweep.pop(block, None) or {}).items():
+                for name, values in settings.items():
+                    sweep[f"{block}.{kernel}.{name}"] = values
 
         # A parameter the sweep leaves out is not part of any design, so a kernel
         # that has no use for it carries nothing for it either

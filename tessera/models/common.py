@@ -1,6 +1,9 @@
-import yaml
+from functools import lru_cache
 from pathlib import Path
-from tessera.const import CURVES_FILE
+
+import yaml
+
+from tessera.const import CATAPULT_DIRECTIVES_FILE, CATAPULT_STATES, CURVES_FILE
 
 def load_and_validate_yaml(model, path):
     return model.model_validate(yaml.safe_load(Path(path).read_text()))
@@ -26,3 +29,14 @@ def load_curves():
 def is_fpga(tech_type):
     "An FPGA tech node uses fgpa prefix as convention in Tessera"
     return tech_type.startswith("fpga")
+
+
+@lru_cache
+def load_catapult_directives():
+    "Directive name -> its allowed values and last allowed state"
+    directives = yaml.safe_load(CATAPULT_DIRECTIVES_FILE.read_text())
+    for name, spec in directives.items():
+        if spec.get("last_state") not in CATAPULT_STATES:
+            raise ValueError(f"{CATAPULT_DIRECTIVES_FILE.name}: {name} needs a last_state "
+                             f"from: {', '.join(CATAPULT_STATES)}")
+    return directives

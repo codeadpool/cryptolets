@@ -6,11 +6,32 @@ from typing import Literal, Optional, get_args
 from pydantic import BaseModel, model_validator
 
 from tessera.const import ARB_FIELD, KERNELS_DIR
-from tessera.models.common import load_and_validate_yaml, load_curves, is_fpga
+from tessera.models.common import (load_and_validate_yaml, load_catapult_directives,
+                                   load_curves, is_fpga)
 from tessera.models.config import RunConfig
 
 # The settings deps can give one child kernel, in ns
 DEP_SETTINGS = {"period", "io_delay"}
+
+
+def _check_kernel(block, kernel):
+    # Kernel.find, without importing the kernel model, which imports this one
+    if not any((level / kernel).is_dir() for level in KERNELS_DIR.iterdir()):
+        raise ValueError(f"{block}: unknown kernel '{kernel}'")
+
+
+def _check_directive_value(key, value, spec):
+    # YAML reads an unquoted true as a bool, Catapult wants the word
+    value = str(value).lower() if isinstance(value, bool) else value
+    if "choices" in spec:
+        if str(value) not in spec["choices"]:
+            raise ValueError(f"{key}: {value} not in {spec['choices']}")
+        return
+    kind = {"int": int, "float": (int, float)}[spec["type"]]
+    if isinstance(value, bool) or not isinstance(value, kind):
+        raise ValueError(f"{key}: {value} is not a {spec['type']}")
+    if value < spec.get("min", value) or value > spec.get("max", value):
+        raise ValueError(f"{key}: {value} out of range")
 
 
 class Sweep(BaseModel):
@@ -31,6 +52,10 @@ class Sweep(BaseModel):
     # Exact timing for one blackboxed child kernel, in ns, in place of the
     # ratios above, e.g. {l0_int_cmul: {period: [0.8], io_delay: [0.32]}}
     deps: Optional[dict[str, dict[str, list[float]]]] = None
+
+    # Catapult directives for one kernel, e.g. {l1_mod_mul: {CLOCK_OVERHEAD: [0]}}.
+    # Allowed names and values are in tessera/tcl/catapult/directives.yaml
+    catapult: Optional[dict[str, dict[str, list]]] = None
 
     # A named curve fixes n to its own bitwidth; arb_field follows n
     field: Optional[list[str]] = None
@@ -103,13 +128,24 @@ class Sweep(BaseModel):
     @model_validator(mode="after")
     def _check_deps(self):
         for kernel, settings in (self.deps or {}).items():
-            # Kernel.find, without importing the kernel model, which imports this one
-            if not any((level / kernel).is_dir() for level in KERNELS_DIR.iterdir()):
-                raise ValueError(f"deps: unknown kernel '{kernel}'")
+            _check_kernel("deps", kernel)
             unknown = set(settings) - DEP_SETTINGS
             if unknown:
                 raise ValueError(f"deps.{kernel}: unknown {', '.join(sorted(unknown))}, "
                                  f"pick from: {', '.join(sorted(DEP_SETTINGS))}")
+        return self
+
+    @model_validator(mode="after")
+    def _check_catapult(self):
+        allowed = load_catapult_directives()
+        for kernel, directives in (self.catapult or {}).items():
+            _check_kernel("catapult", kernel)
+            for name, values in directives.items():
+                if name not in allowed:
+                    raise ValueError(f"catapult.{kernel}: unknown directive {name}, "
+                                     f"pick from: {', '.join(sorted(allowed))}")
+                for value in values:
+                    _check_directive_value(f"catapult.{kernel}.{name}", value, allowed[name])
         return self
 
     @model_validator(mode="after")
