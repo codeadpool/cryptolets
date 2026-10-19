@@ -92,6 +92,9 @@ class Sweep(BaseModel):
     # point addtion formula selections
     pdbl_form: Optional[list[Literal["pdbl_a0", "pdbl_a2", "pdbl_a3", "pdbl_avar"]]] = None
     padd_te_form: Optional[list[Literal["padd_te_add", "padd_te_cyclone"]]] = None
+    # Renes, Costello and Batina, eprint 2015/1060: alg7 adds two projective
+    # points, alg8 a projective and an affine point
+    padd_rcb_form: Optional[list[Literal["padd_rcb_alg7", "padd_rcb_alg8"]]] = None
 
     # fixed bakes the curve coefficients into the hardware, var takes them as ports
     coef_type: Optional[list[Literal["fixed_coef", "var_coef"]]] = None

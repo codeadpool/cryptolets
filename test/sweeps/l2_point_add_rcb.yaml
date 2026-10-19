@@ -1,0 +1,53 @@
+sweep:
+  bitwidth: [254, 381]
+  tech_type: [gf12_highperf]
+  period: [1.0]
+  ii: [1]
+  mul_type: [mul_nor, mul_sb, mul_kar]
+  dep_period_ratio: [1.0]
+
+  base_mul_width:
+    64: [16]
+    253: [63]
+    254: [63]
+    255: [63]
+    256: [64]
+    377: [47]
+    381: [47]
+    448: [56]
+    511: [63]
+    512: [64]
+    753: [47]
+    768: [48]
+  kar_base_mul_width:
+    64: [32, 16]
+    253: [126, 63]
+    254: [127, 63]
+    255: [127, 63]
+    256: [128, 64]
+    377: [188, 94, 47]
+    381: [190, 95, 47]
+    448: [224, 112, 56]
+    511: [255, 127, 63]
+    512: [256, 128, 64]
+    753: [376, 188, 94, 47]
+    768: [384, 192, 96, 48]
+
+  # fixed bakes the constant into the hardware, var takes it as a port
+  q_type: [fixed_q, var_q]
+  rc_type: [fixed_rc, var_rc]
+
+  # Which modular reduction the multiply uses
+  mred: [mred_mont]
+
+  # Which RCB addition: alg7 adds two projective points, alg8 a projective and an affine point
+  padd_rcb_form: [padd_rcb_alg7, padd_rcb_alg8]
+
+  # field; arb_field is a random prime of the bitwidth
+  field: [bn254_base, bls12_381_base]
+
+flags:
+  num_test_samples: 100
+  syn_sel: all            # all, pareto, small_fast (smallest and fastest)
+  bb_syn_metrics: false   # blackbox children with their DC area/delay, not Catapult's estimate
+  syn_passes: 1           # compile_ultra passes: one full, the rest incremental

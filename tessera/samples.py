@@ -50,7 +50,7 @@ def get_rc(design):
 
 
 def get_coef(design, name):
-    "A curve coefficient (a, d or k), in the form the design multiplies by"
+    "A curve coefficient (a, d, k or b3), in the form the design multiplies by"
     field = design.design["field"]
     const = fixed_member(name, design.design)
     return int(design.structs[field][const]["val"], 16)

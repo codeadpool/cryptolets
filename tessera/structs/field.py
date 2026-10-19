@@ -56,4 +56,10 @@ def get_field(name):
         struct["k"] = {"w": w, "val": f"{k:x}"}
         struct["k_mont"] = {"w": w, "val": f"{to_mont(k, q):x}"}
 
+    # The RCB additions read 3b, so it is precomputed
+    if "b" in coeffs:
+        b3 = (3 * int(coeffs["b"], 16)) % q
+        struct["b3"] = {"w": w, "val": f"{b3:x}"}
+        struct["b3_mont"] = {"w": w, "val": f"{to_mont(b3, q):x}"}
+
     return struct

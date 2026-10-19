@@ -65,9 +65,14 @@ def filter_arb_field_fixed_rc(design):
     return None
 
 
+def _reads_coef(design):
+    "The add formulas that multiply by a curve coefficient, either baked in or as a port"
+    return "padd_te_form" in design or "padd_rcb_form" in design
+
+
 def filter_arb_field_fixed_coef(design):
     "arb_field's curve coefficients are placeholders, so baking them in describes no curve"
-    if (design.get("field", "").startswith(ARB_FIELD) and "padd_te_form" in design
+    if (design.get("field", "").startswith(ARB_FIELD) and _reads_coef(design)
             and design.get("coef_type") != "var_coef"):
         return "arb_field has no meaningful fixed curve coefficients; use var_coef"
     return None
@@ -82,7 +87,7 @@ def filter_cyclone_field(design):
 
 def filter_point_scalar_field(design):
     "Only a curve's base field carries the coefficients a point formula needs"
-    point = "pdbl_form" in design or "padd_te_form" in design
+    point = "pdbl_form" in design or _reads_coef(design)
     if point and design.get("field", "").endswith("_scalar"):
         return "point kernels need the curve's base field"
     return None
@@ -110,9 +115,19 @@ def filter_pdbl_form(design):
 
 
 def filter_var_coef(design):
-    "Only the TE add formulas read a curve coefficient, so var_coef means nothing elsewhere"
-    if design.get("coef_type") == "var_coef" and "padd_te_form" not in design:
-        return "var_coef is only for the TE add, whose formulas read a coefficient"
+    "Only the TE and RCB add formulas read a curve coefficient, so var_coef means nothing elsewhere"
+    if design.get("coef_type") == "var_coef" and not _reads_coef(design):
+        return "var_coef is only for the TE and RCB adds, whose formulas read a coefficient"
+    return None
+
+
+def filter_rcb_a0(design):
+    "The RCB formulas here are written for a = 0, so they compute the wrong point on any other curve"
+    field = design.get("field")
+    if "padd_rcb_form" not in design or not field or field.endswith("_scalar"):
+        return None
+    if int(get_field(field)["a"]["val"], 16) != 0:
+        return "padd_rcb_form needs a curve with a = 0"
     return None
 
 
@@ -123,7 +138,7 @@ def _reads_fixed_coef(design):
     # pdbl_avar always multiplies by the field's a as a constant
     if design.get("pdbl_form") == "pdbl_avar":
         return True
-    return "padd_te_form" in design and design.get("coef_type") != "var_coef"
+    return _reads_coef(design) and design.get("coef_type") != "var_coef"
 
 
 def filter_generic_named_field(design):
@@ -148,7 +163,7 @@ def filter_generic_named_field(design):
 
 FILTERS = [filter_arb_field_fixed_q, filter_arb_field_fixed_rc, filter_arb_field_fixed_coef,
            filter_cyclone_field,
-           filter_point_scalar_field, filter_pdbl_form, filter_var_coef,
+           filter_point_scalar_field, filter_pdbl_form, filter_var_coef, filter_rcb_a0,
            filter_generic_named_field]
 
 # Params keyed by n rather than swept directly

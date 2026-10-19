@@ -1,0 +1,59 @@
+#include "l2_point_add_rcb_top.h"
+#include "tb_helper.h"
+#include "ec_helper.h"
+
+// The reduction constant is q_prime for Montgomery and the wider mu for Barrett
+#if MRED == MRED_BAR
+static constexpr int RC_W = 2*BITWIDTH;
+#else
+static constexpr int RC_W = BITWIDTH;
+#endif
+
+vector<string> run_per_row(vector<string>& samples_row) {
+  // The samples are projective points, each with its own Z. For alg8 the
+  // second point has Z = 1, and only its x and y are read.
+  PointProj<FIELD> P0, P1;
+  P0.X = parse_ac_int<BITWIDTH>(samples_row[0]);
+  P0.Y = parse_ac_int<BITWIDTH>(samples_row[1]);
+  P0.Z = parse_ac_int<BITWIDTH>(samples_row[2]);
+  P1.X = parse_ac_int<BITWIDTH>(samples_row[3]);
+  P1.Y = parse_ac_int<BITWIDTH>(samples_row[4]);
+  P1.Z = parse_ac_int<BITWIDTH>(samples_row[5]);
+  ac_int<BITWIDTH, false> q = parse_ac_int<BITWIDTH>(samples_row[6]);
+  ac_int<RC_W, false> rc = parse_ac_int<RC_W>(samples_row[7]);
+  ac_int<BITWIDTH, false> b3 = parse_ac_int<BITWIDTH>(samples_row[8]);
+
+#if MRED == MRED_MONT
+  P0 = to_mont<FIELD>(P0, q);
+  P1 = to_mont<FIELD>(P1, q);
+#endif
+
+  PointProj<FIELD> R;
+  CCS_DESIGN(l2_point_add_rcb_top) dut;
+
+  // q, rc and b3 are ports only when they are variable
+  dut.run(P0, P1,
+#if Q_TYPE != FIXED_Q
+          q,
+#endif
+#if RC_TYPE != FIXED_RC
+          rc,
+#endif
+#if COEF_TYPE == VAR_COEF
+          b3,
+#endif
+          R);
+
+#if MRED == MRED_MONT
+  R = from_mont<FIELD>(R, q);
+#endif
+
+  PointAff<FIELD> A = proj_to_aff<FIELD>(R, q);
+  return {A.x.to_string(AC_DEC), A.y.to_string(AC_DEC)};
+}
+
+// required for sc verify flow in Catapult
+CCS_MAIN(int argc, char** argv) {
+  run_tb(run_per_row, argv[1], argv[2]); // samples_file, output_file
+  CCS_RETURN(0);
+}

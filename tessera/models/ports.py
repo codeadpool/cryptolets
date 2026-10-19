@@ -6,7 +6,7 @@ baked into the hardware, read from the field struct.
 
 # One coef_type sets all curve coefficients. A formula that does not read one
 # leaves that port unconnected.
-COEF_PORTS = ("a", "d", "k")
+COEF_PORTS = ("a", "d", "k", "b3")
 
 
 def is_fixed(port, design):
@@ -23,6 +23,7 @@ FIXED_VALUE = {
     "a":  {"mred_mont": "a_mont",  "mred_bar": "a"},
     "d":  {"mred_mont": "d_mont",  "mred_bar": "d"},
     "k":  {"mred_mont": "k_mont",  "mred_bar": "k"},
+    "b3": {"mred_mont": "b3_mont", "mred_bar": "b3"},
 }
 
 

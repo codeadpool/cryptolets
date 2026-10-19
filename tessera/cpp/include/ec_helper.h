@@ -20,6 +20,12 @@ struct PointJac {
     ac_int<_FIELD::W, false> X, Y, Z;
 };
 
+// Projective
+template<class _FIELD>
+struct PointProj {
+    ac_int<_FIELD::W, false> X, Y, Z;
+};
+
 // Extended projective
 template<class _FIELD>
 struct PointExtProj {
@@ -38,6 +44,20 @@ PointAff<_FIELD> jac_to_aff(const PointJac<_FIELD> P,
     ac_int<_FIELD::W, false> z3 = mod_mul<_FIELD>(z2, P.Z, q);
     R.x = mod_mul<_FIELD>(P.X, mod_inv<_FIELD>(z2, q), q);
     R.y = mod_mul<_FIELD>(P.Y, mod_inv<_FIELD>(z3, q), q);
+    return R;
+}
+
+// projective to affine
+// x = X/Z and y = Y/Z
+template<class _FIELD>
+PointAff<_FIELD> proj_to_aff(const PointProj<_FIELD> P,
+                             const ac_int<_FIELD::W, false> q) {
+    PointAff<_FIELD> R;
+    if (P.Z == 0) { R.x = 0; R.y = 0; return R; }
+
+    ac_int<_FIELD::W, false> z_inv = mod_inv<_FIELD>(P.Z, q);
+    R.x = mod_mul<_FIELD>(P.X, z_inv, q);
+    R.y = mod_mul<_FIELD>(P.Y, z_inv, q);
     return R;
 }
 
@@ -63,6 +83,16 @@ PointJac<_FIELD> to_mont(const PointJac<_FIELD> P, const ac_int<_FIELD::W, false
 
 template<class _FIELD>
 PointJac<_FIELD> from_mont(const PointJac<_FIELD> P, const ac_int<_FIELD::W, false> q) {
+    return {from_mont<_FIELD>(P.X, q), from_mont<_FIELD>(P.Y, q), from_mont<_FIELD>(P.Z, q)};
+}
+
+template<class _FIELD>
+PointProj<_FIELD> to_mont(const PointProj<_FIELD> P, const ac_int<_FIELD::W, false> q) {
+    return {to_mont<_FIELD>(P.X, q), to_mont<_FIELD>(P.Y, q), to_mont<_FIELD>(P.Z, q)};
+}
+
+template<class _FIELD>
+PointProj<_FIELD> from_mont(const PointProj<_FIELD> P, const ac_int<_FIELD::W, false> q) {
     return {from_mont<_FIELD>(P.X, q), from_mont<_FIELD>(P.Y, q), from_mont<_FIELD>(P.Z, q)};
 }
 
