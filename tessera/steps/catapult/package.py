@@ -90,6 +90,8 @@ def write_package(design, kernel, combinational):
         "ports": ports,
         "dut_path": dut_path(modules, module),
         "params": design.design,
+        # The blackboxed children, so a later step can find their own results
+        "children": [f"{name}/{h}" for name, deps in design.deps.items() for h in deps],
         **metrics,
     }
 

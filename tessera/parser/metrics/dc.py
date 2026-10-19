@@ -23,10 +23,31 @@ def parse_dc_qor(design, passes):
 
     period = float(_field(report, text, "Critical Path Clk Period"))
     slack = _field(report, text, "Critical Path Slack")
+
+    # Each path group has its own section; the first one alone can hide a miss
+    # in another, such as the inputs of a child that a parent times as a whole
+    slack_dc, tns_dc = {}, {}
+    sections = re.split(r"Timing Path Group '(\S+)'", text)[1:]
+    for group, body in zip(sections[::2], sections[1::2]):
+        group_slack = _field(report, body, "Critical Path Slack")
+        # An unconstrained group cannot miss
+        slack_dc[group] = None if "uninit" in group_slack else float(group_slack)
+        tns_dc[group] = None if "uninit" in group_slack else float(_field(report, body, "Total Negative Slack"))
+
+    check = design.build_dir / "reports" / "dc" / f"pass_{passes}" / "check_design.rpt"
+    check_errors = sum(line.startswith("Error") for line in check.read_text().splitlines()) \
+        if check.exists() else None
+
+    met = all(s is None or s >= 0 for s in slack_dc.values()) \
+        and all(t is None or t == 0 for t in tns_dc.values()) and not check_errors
     return {
         "area_dc": round(float(_field(report, text, "Cell Area")), 4),
         # An unconstrained design reports no slack, so it has no delay
         "delay_dc": None if "uninit" in slack else round(period - float(slack), 4),
+        "slack_dc": slack_dc,
+        "tns_dc": tns_dc,
+        "check_errors": check_errors,
+        "met_dc": met,
     }
 
 

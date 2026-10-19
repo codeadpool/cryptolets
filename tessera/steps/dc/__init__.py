@@ -2,6 +2,8 @@ import logging
 import subprocess
 import time
 
+import yaml
+
 from tessera.steps.base import Step
 from tessera.steps.catapult.package import update_manifest
 from tessera.steps.dc.codegen import gen_dc_tcl
@@ -9,6 +11,24 @@ from tessera.steps.dc.select import select_designs
 from tessera.parser.metrics.dc import parse_dc_qor, parse_dc_power
 from tessera.helpers.archive import archive_run
 from tessera.helpers.others import log_elapsed
+from tessera.const import BUILD_DIR
+
+
+def met_all(manifest, build_dir=BUILD_DIR):
+    """
+    Whether this design and every child below it met DC. A parent links its
+    children untouched, so its own report cannot show a miss inside one.
+    None when a child has no verdict yet, so unknown never reads as met.
+    """
+    if not manifest.get("met_dc"):
+        return False
+    verdicts = []
+    for child in manifest.get("children", []):
+        path = build_dir / child / "package" / "manifest.yaml"
+        verdicts.append(yaml.safe_load(path.read_text()).get("met_all") if path.exists() else None)
+    if False in verdicts:
+        return False
+    return None if None in verdicts else True
 
 
 class DesignCompiler(Step):
@@ -49,8 +69,9 @@ class DesignCompiler(Step):
         ok = log_elapsed(self.name, design_name, result.returncode, start_time)
         if ok:
             passes = run_inst.sweep_flags["syn_passes"]
-            update_manifest(
+            manifest = update_manifest(
                 design, **parse_dc_qor(design, passes),
                 power_dc=parse_dc_power(design, module, passes)
             )
+            update_manifest(design, met_all=met_all(manifest))
         return ok
