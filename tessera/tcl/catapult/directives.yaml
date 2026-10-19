@@ -62,6 +62,5 @@ GATE_REGISTERS:         {choices: ["true", "false"], last_state: memories}
 
 # Child blocks (CCOREs)
 CCORE_POINTS: {type: int, min: 0, max: 10, last_state: memories}
-CCORE_TYPE:   {choices: [sequential, combinational], last_state: libraries}
 BOUNDARY_OPT: {choices: [ccore, "off"], last_state: libraries}
 CCORE_FLOW:   {choices: [topdown, bottomup, both], last_state: assembly}

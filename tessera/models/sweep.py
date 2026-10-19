@@ -49,6 +49,10 @@ class Sweep(BaseModel):
     # each child port. Applied again at each level of depth.
     dep_io_ratio: Optional[list[float]] = None
 
+    # The time a parent keeps at each port, in ns. Builds a kernel alone as
+    # the child it would be, with the same hash, so a later parent reuses it
+    io_delay: Optional[list[float]] = None
+
     # Exact timing for one blackboxed child kernel, in ns, in place of the
     # ratios above, e.g. {l0_int_cmul: {period: [0.8], io_delay: [0.32]}}
     deps: Optional[dict[str, dict[str, list[float]]]] = None

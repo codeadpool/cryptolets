@@ -84,11 +84,6 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
     sweep_flags = sweep_conf_map['flags']
     fpga_run = sweep_conf.is_fpga_run()
 
-    # bb_syn_metrics uses child's DC metrics when blackboxing Catapult designs
-    # Therefore, we need to ensure --syn is ran to use them.
-    if sweep_flags["bb_syn_metrics"] and STAGES.index(to) < STAGES.index("syn"):
-        raise Exception(f"bb_syn_metrics needs --to syn or later, got '{to}'")
-
     if fpga_run:
         if sweep_flags["bb_syn_metrics"]:
             raise ValueError("FPGA does not support bb_syn_metrics=true. Set bb_syn_metrics=false.")
