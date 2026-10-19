@@ -10,7 +10,6 @@ from tessera.parser.cpp import parse_header
 
 
 class KernelConfig(BaseModel):
-    blackbox: list[str] = [] # which dependent kernels get blackkboxed
     # parameters specific to the design, which helps use group
     # designs for given kernel which perform the same arithmetic operation 
     design_key: list[str] = []
@@ -42,6 +41,7 @@ class Kernel:
         self.build_dir = BUILD_DIR / name
         self.impl_spec = parse_header(self.path / "impl" / f"{name}_impl.h")
         self.config = KernelConfig.load(self.path)
+        self.blackbox = [] # set per run from the sweep's flags.blackbox
 
     @staticmethod
     def find(name):

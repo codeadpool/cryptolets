@@ -36,7 +36,7 @@ class CatapultHLS(Step):
     def setup(self, kernel, designs, run_inst):
         # A blackboxed child's RTL names DesignWare parts Catapult did not map
         # itself, so its RTL verify needs their models compiled once
-        if kernel.config.blackbox:
+        if kernel.blackbox:
             logging.info(f"Compiling the DesignWare sim models")
             conf = RunConfig.load()
             log_path = DWARE_DIR / "dware.log"

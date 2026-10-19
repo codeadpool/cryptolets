@@ -178,6 +178,18 @@ class SweepFlags(BaseModel):
     # what Catapult estimated for it. Needs the children through syn.
     bb_syn_metrics: bool = False
 
+    # Which deps each kernel reuses as packaged RTL; the rest are inlined.
+    # A kernel outside the run's tree is ignored, so one map can serve many runs
+    blackbox: dict[str, list[str]] = {}
+
+    @model_validator(mode="after")
+    def _check_blackbox(self):
+        for kernel, children in self.blackbox.items():
+            _check_kernel("blackbox", kernel)
+            for child in children:
+                _check_kernel(f"blackbox.{kernel}", child)
+        return self
+
 
 class SweepConfig(BaseModel):
     sweep: Sweep

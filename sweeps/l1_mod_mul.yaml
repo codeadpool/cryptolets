@@ -52,3 +52,5 @@ flags:
   syn_sel: all            # all, pareto, small_fast (smallest and fastest)
   bb_syn_metrics: false   # blackbox children with their DC area/delay, not Catapult's estimate
   syn_passes: 1           # compile_ultra passes: one full, the rest incremental
+  blackbox:               # deps each kernel reuses as packaged RTL; the rest are inlined
+    l1_mod_mul: [l0_int_cmul]

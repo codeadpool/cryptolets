@@ -10,13 +10,14 @@ from tessera.models.kernel import Kernel
 from tessera.parser.cpp import live_instances
 
 
-def resolve_kernels(kernels, kernel_name):
+def resolve_kernels(kernels, kernel_name, blackbox):
     "Load a kernel and, recursively, the kernels it blackboxes"
     if kernel_name in kernels:
         return
-    kernels[kernel_name] = Kernel(kernel_name)
-    for dep in kernels[kernel_name].config.blackbox:
-        resolve_kernels(kernels, dep)
+    kernel = kernels[kernel_name] = Kernel(kernel_name)
+    kernel.blackbox = blackbox.get(kernel_name, [])
+    for dep in kernel.blackbox:
+        resolve_kernels(kernels, dep, blackbox)
 
 
 def descendants(graph, name):
@@ -78,7 +79,7 @@ def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs, grap
     for parent in parent_designs.values():
         instances = live_instances(parent, parent_kernel)
 
-        for child_name in parent_kernel.config.blackbox:
+        for child_name in parent_kernel.blackbox:
             if child_name not in instances:
                 logging.debug(f"{parent_kernel.name} {parent.build_dir.name} "
                                 f"does not use blackboxed dep '{child_name}'")
@@ -93,11 +94,11 @@ def resolve_designs(parent_kernel, parent_designs, kernels, kernel_designs, grap
                 parent.deps.setdefault(child_name, {})[key] = child
 
 
-def get_schedule(kernel_name: str, designs: list[Design]):
+def get_schedule(kernel_name: str, designs: list[Design], blackbox: dict[str, list[str]]):
     "The kernels in build order, each with the designs it needs"
     kernels = {}
-    resolve_kernels(kernels, kernel_name)
-    graph = {name: kernel.config.blackbox for name, kernel in kernels.items()}
+    resolve_kernels(kernels, kernel_name, blackbox)
+    graph = {name: kernel.blackbox for name, kernel in kernels.items()}
     order = list(TopologicalSorter(graph).static_order())
 
     # Only the target and its blackboxed children are built on their own; a
