@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 from pathlib import Path
 import click
@@ -46,7 +47,7 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume, verb
     log_file = logging.FileHandler(RUNS_DIR / f"run_{datetime.now():%Y%m%d_%H%M%S}.log")
     log_file.setFormatter(LOG_FORMAT)
     logging.getLogger().addHandler(log_file)
-    core.run(
+    ok = core.run(
         kernel=kernel,
         threads=threads,
         threads_per_process=threads_per_process,
@@ -56,6 +57,9 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume, verb
         only=only,
         resume=resume,
     )
+    # A failed design shows in the exit code, not only in the log
+    if not ok:
+        sys.exit(1)
 
 @app.command("analyze")
 @click.argument('kernel')

@@ -111,6 +111,15 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
 
     # automatic dependency resolution and scheduling
     schedule = get_schedule(kernel, flattened_sweep)
+
+    # A C++ test runs the children's C++, so it needs neither their builds
+    # nor the blackbox headers that stand in for them
+    cpp_only = not has_stage("hls", frm, to)
+    if cpp_only:
+        schedule = [(k, ds) for k, ds in schedule if k.name == kernel]
+        for design in schedule[0][1]:
+            design.uses_blackboxes = False
+            
     if len(schedule) > 1:
         logging.info("Parent kernel requires resolving the following dependencies in order:")
         for cur_kernel, cur_designs in schedule:
@@ -160,6 +169,11 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
 
     stop.set()
 
+    # Generated without the blackbox headers, so a later run must generate again
+    if cpp_only:
+        for design in schedule[0][1]:
+            PIPELINE[0].done_path(design).unlink(missing_ok=True)
+
     # Kernels in build order, steps in pipeline order, as they ran
     logging.info("Summary:")
     for cur_kernel, _ in schedule:
@@ -167,3 +181,5 @@ def run(kernel, threads, threads_per_process, sweep, frm, to, only, resume=False
         for step in steps_to_run:
             passed, total = summary[cur_kernel.name, step.name]
             logging.info(f"    {step.name}: {rate(passed, total) if total else 'no designs'}")
+
+    return all(passed == total for passed, total in summary.values())
