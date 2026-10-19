@@ -20,9 +20,7 @@ def met_all(manifest, build_dir=BUILD_DIR):
     children untouched, so its own report cannot show a miss inside one.
     None when a child has no verdict yet, so unknown never reads as met.
     """
-    if not manifest.get("met_dc"):
-        return False
-    verdicts = []
+    verdicts = [manifest.get("met_dc")]
     for child in manifest.get("children", []):
         path = build_dir / child / "package" / "manifest.yaml"
         verdicts.append(yaml.safe_load(path.read_text()).get("met_all") if path.exists() else None)

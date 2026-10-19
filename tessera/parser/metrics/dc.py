@@ -38,8 +38,15 @@ def parse_dc_qor(design, passes):
     check_errors = sum(line.startswith("Error") for line in check.read_text().splitlines()) \
         if check.exists() else None
 
-    met = all(s is None or s >= 0 for s in slack_dc.values()) \
-        and all(t is None or t == 0 for t in tns_dc.values()) and not check_errors
+    # Met only on complete evidence: a miss is False, a missing report, no
+    # path group or an unconstrained one is None, so neither reads as met
+    timed = [(s, t) for s, t in zip(slack_dc.values(), tns_dc.values()) if s is not None]
+    if any(s < 0 or t != 0 for s, t in timed) or check_errors:
+        met = False
+    elif check_errors is None or not slack_dc or len(timed) < len(slack_dc):
+        met = None
+    else:
+        met = True
     return {
         "area_dc": round(float(_field(report, text, "Cell Area")), 4),
         # An unconstrained design reports no slack, so it has no delay
