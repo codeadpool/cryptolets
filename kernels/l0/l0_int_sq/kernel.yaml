@@ -9,4 +9,3 @@ kernel_key: [bitwidth]
 states:
   compile: |
     directive set -PIPELINE_INIT_INTERVAL $ii
-    adder_tree_opt $tech_type

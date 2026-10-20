@@ -46,14 +46,6 @@ proc is_fpga {tech_type} {
     return [string match "fpga*" $tech_type]
 }
 
-proc adder_tree_opt {tech_type} {
-    if {![is_fpga $tech_type]} {
-        directive set -CLUSTER addtree
-        directive set -CLUSTER_FAST_MODE true
-        directive set -CLUSTER_CSA_ARCH dadda ;# wordwise, dadda, wallace
-    }
-}
-
 proc save_table { table_fp } {
     solution table export -file $table_fp
 }

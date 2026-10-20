@@ -32,16 +32,6 @@ LOGIC_SYNTHESIS:                  {choices: ["no", estimation, extract], last_st
 MUX_PUSHING:                      {choices: ["no", "yes", force], last_state: memories}
 REDUNDANT_RTL_ELIMINATION:        {choices: ["true", "false"], last_state: memories}
 
-# Clustering. CLUSTER takes one structure here; Catapult also accepts a list
-CLUSTER:                            {choices: [multadd, addtree, square, mult], last_state: memories}
-CLUSTER_CSA_ARCH:                   {choices: [wordwise, dadda, wallace], last_state: memories}
-CLUSTER_FAST_MODE:                  {choices: ["true", "false"], last_state: memories}
-CLUSTER_INLINE:                     {choices: ["true", "false"], last_state: memories}
-CLUSTER_OPT_CONSTANT_INPUTS:        {choices: ["true", "false"], last_state: memories}
-CLUSTER_TYPE:                       {choices: [combinational, sequential, both], last_state: memories}
-CLUSTER_ADDTREE_IN_COUNT_THRESHOLD: {type: int, min: 1, last_state: memories}
-CLUSTER_ADDTREE_IN_WIDTH_THRESHOLD: {type: int, min: 1, last_state: memories}
-
 # Operator grades
 COMPGRADE_ADD:   {choices: [fast, small, standard], last_state: architect}
 COMPGRADE_MUL:   {choices: [fast, small, standard], last_state: architect}
