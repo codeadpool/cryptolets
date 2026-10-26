@@ -1,0 +1,28 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : l1_mod_mul
+Version: Y-2026.03
+Date   : Fri Oct 23 23:30:33 2026
+****************************************
+
+
+    Net: z_triosy_lz
+
+    Capacitance            0.00
+  - min_capacitance        0.00
+  ------------------------------
+    Slack                  0.00  (VIOLATED: increase significant digits)
+
+
+    Design: l1_mod_mul
+
+    max_leakage_power          0.00
+  - Current Leakage Power   6388.63
+  ----------------------------------
+    Slack                  -6388.63  (VIOLATED)
+
+
+1

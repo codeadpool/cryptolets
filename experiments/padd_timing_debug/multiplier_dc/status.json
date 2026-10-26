@@ -1,0 +1,48 @@
+{
+  "state": "passed",
+  "pid": 666466,
+  "started_utc": "2026-10-24T02:16:07.914201+00:00",
+  "cores": 1,
+  "period_ns": 1.0,
+  "promoted_to_padd": false,
+  "run_dir": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental",
+  "baseline_run": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_002114_481916_multiplier",
+  "dc_log": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/dc.log",
+  "command": [
+    "/usr/bin/python3",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/sources/guard.py",
+    "--min-free-gib",
+    "50",
+    "--",
+    "/eda/synopsys/syn/Y-2026.03/bin/dc_shell",
+    "-f",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/sources/incremental.tcl"
+  ],
+  "child_pid": 666469,
+  "updated_utc": "2026-10-24T03:30:47.239471+00:00",
+  "wall_seconds": 4489.260297385976,
+  "exit_code": 0,
+  "memory": {
+    "reason": "tool_exit",
+    "exit_code": 0,
+    "peak_sampled_dc_rss_gib": 2.76666259765625,
+    "minimum_sampled_host_available_gib": 651.2901039123535,
+    "peak_sampled_process_count": 3,
+    "note": "Process-group RSS sum can double-count shared pages; five-second sampling can miss peaks."
+  },
+  "ended_utc": "2026-10-24T03:30:57.258935+00:00",
+  "before": {
+    "worst_reported_slack_ns": -0.061814,
+    "mapped_area_um2": 156249.599061,
+    "reported_setup_timing_met": false
+  },
+  "after": {
+    "worst_reported_slack_ns": 3.2e-05,
+    "mapped_area_um2": 157875.825721,
+    "reported_setup_timing_met": true
+  },
+  "slack_improvement_ns": 0.061846,
+  "area_change_um2": 1626.2266600000148,
+  "mapped_ddc": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/results/mapped.ddc",
+  "mapped_ddc_sha256": "f6b36a11a75c60be1cceda4ce87bccb460f57dba85370ded6bfaddea2a7f2342"
+}

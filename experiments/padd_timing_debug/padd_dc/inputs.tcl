@@ -1,0 +1,11 @@
+set mode {pipelined}
+set latency_cycles {16}
+set multiplier_ddc {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/results/mapped.ddc}
+set multiplier_sha256 {f6b36a11a75c60be1cceda4ce87bccb460f57dba85370ded6bfaddea2a7f2342}
+set baseline_ddc {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_014259_115687_padd/results/mapped.ddc}
+set baseline_sha256 {48574e2276e047385dd7e46fe0fb273ba6d624e6e6b2818ba260bbc5aff05099}
+set library_db {/ip/arm/gf12/sc7p5mcpp84_base_slvt_c14/r1p0/db/sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c.db}
+set library_sha256 {2026c14d955a0f7218b4b94dfdf37fcdf2ffb414c330a883a00d513b2fc74502}
+set input_sdc {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_014259_115687_padd/results/mapped.sdc}
+set parent_rtl {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/registered_input_oh20_01/parent_for_dc.v}
+set child_wrapper {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/registered_input_oh20_01/wrapper_for_dc.v}

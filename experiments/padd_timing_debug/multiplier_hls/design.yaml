@@ -1,0 +1,16 @@
+kernel: l1_mod_mul
+hash: d7267ca0d90c7363
+name: bitwidth_381__tech_type_gf12_highperf__period_1.0__ii_1__dep_period_ratio_1.0__field_bls12_381_base__q_type_fixed_q__rc_type_fixed_rc__mred_mred_mont__mul_type_mul_kar__base_mul_width_64__kar_base_mul_width_192
+params:
+  bitwidth: 381
+  tech_type: gf12_highperf
+  period: 1.0
+  ii: 1
+  dep_period_ratio: 1.0
+  field: bls12_381_base
+  q_type: fixed_q
+  rc_type: fixed_rc
+  mred: mred_mont
+  mul_type: mul_kar
+  base_mul_width: 64
+  kar_base_mul_width: 192

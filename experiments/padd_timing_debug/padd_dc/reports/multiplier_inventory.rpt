@@ -1,0 +1,68 @@
+Module: DW01_add_width381, Ports: 1145, Input: 763, Output: 382, Inout: 0
+Module: DW01_add_width381, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_add_width382, Ports: 1148, Input: 765, Output: 383, Inout: 0
+Module: DW01_add_width382, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_inc_width382, Ports: 764, Input: 382, Output: 382, Inout: 0
+Module: DW01_inc_width382, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_sub_width381, Ports: 1145, Input: 763, Output: 382, Inout: 0
+Module: DW01_sub_width381, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Module: DW01_add_width383, Ports: 1151, Input: 767, Output: 384, Inout: 0
+Module: DW01_add_width383, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information: Updating graph... (UID-83)
+Warning: Design 'l2_msm_padd_rcb' contains 15 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : cell
+Design : l2_msm_padd_rcb
+Version: Y-2026.03
+Date   : Sun Oct 25 17:32:31 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    u - contains unmapped logic
+
+Cell                      Reference       Library             Area  Attributes
+--------------------------------------------------------------------------------
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_1/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_2/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_3/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_4/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_5/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_6/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_9/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_10/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_11/u
+                          FIXEDMUL_l1_mod_mul             157875.825721
+                                                                    h, n
+--------------------------------------------------------------------------------
+Total 12 cells                                            1894509.908647
+1

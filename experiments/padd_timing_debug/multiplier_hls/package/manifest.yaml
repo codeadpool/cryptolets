@@ -1,0 +1,47 @@
+kernel: l1_mod_mul
+module: l1_mod_mul
+rtl: l1_mod_mul.v
+sdc: l1_mod_mul.sdc
+combinational: false
+ports:
+- name: clk
+  direction: input
+  width: 1
+- name: rst
+  direction: input
+  width: 1
+- name: x_rsc_dat
+  direction: input
+  width: 381
+- name: x_triosy_lz
+  direction: output
+  width: 1
+- name: y_rsc_dat
+  direction: input
+  width: 381
+- name: y_triosy_lz
+  direction: output
+  width: 1
+- name: z_rsc_dat
+  direction: output
+  width: 381
+- name: z_triosy_lz
+  direction: output
+  width: 1
+dut_path: scverify_top/rtl/dut_inst
+params:
+  bitwidth: 381
+  tech_type: gf12_highperf
+  period: 1.0
+  ii: 1
+  dep_period_ratio: 1.0
+  field: bls12_381_base
+  q_type: fixed_q
+  rc_type: fixed_rc
+  mred: mred_mont
+  mul_type: mul_kar
+  base_mul_width: 64
+  kar_base_mul_width: 192
+area: 289451.1340772
+latency: 5
+delay: 0.959

@@ -1,0 +1,14 @@
+set stage {multiplier}
+set top {l1_mod_mul}
+set rtl {/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_002114_481916_multiplier/sources/parent.v}
+set library_db {/ip/arm/gf12/sc7p5mcpp84_base_slvt_c14/r1p0/db/sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c.db}
+set resume_ddc {}
+set resume_sha256 {}
+set period_ns {1.0}
+set check_only {0}
+set child_ddc {}
+set child_top {}
+set child_ref {}
+set child_count {0}
+set child_ddc_sha256 {}
+set child_wrapper {}

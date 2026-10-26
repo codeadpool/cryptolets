@@ -1,0 +1,35 @@
+General 
+,, Latency Cycle ,Latency Time ,Throughput Cycle ,Throughput Time ,Slack ,Area 
+l1_mod_mul.v1 (extract),,5,5.0,1,1.0,0.04101209312999565,289451.1340772
+
+Run Time
+,,Total,analyze,compile,libraries,assembly,loops,memories,cluster,architect,allocate,schedule,dpfsm,instance,extract
+l1_mod_mul.v1 (extract),,44.69,1.1900000000000004,3.0699999999999994,0.2699999999999996,0.5299999999999994,0.3999999999999986,0.5600000000000005,0.010000000000001563,0.9600000000000009,0.47000000000000064,6.6899999999999995,0.9600000000000009,27.32,2.259999999999998
+
+Memory Usage
+,,Peak
+l1_mod_mul.v1 (extract),,1444256
+
+Timing
+,,Latency Cycles,Latency Time,Throughput Cycles,Throughput Time,Iterations,Total Cycles,Logical Input Delay,Max Input Delay,Logical Output Delay,Max Output Delay,Logical Max Delay,Max Delay,Slack,Clock Period
+l1_mod_mul.v1 (extract),,5,5.0,1,1.0,,,0.9589,0.9589,0.019,0.019,0.9589,0.9589,0.04101209312999565,1.0
+l1_mod_mul.v1 (extract),l1_mod_mul:run:,5,5.0,1,1.0,,6,,,,,,,,
+l1_mod_mul.v1 (extract),l1_mod_mul:run:run:rlp:,5,5.0,1,1.0,Infinite,6,,,,,,,,
+l1_mod_mul.v1 (extract),l1_mod_mul:run:run:rlp:main:,5,5.0,1,1.0,Infinite,6,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:clk->clk:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:clk->y.triosy.lz:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:clk->z:rsc.dat:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:y:rsc.dat->clk:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:clk->x.triosy.lz:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:clk->z.triosy.lz:,,,,,,,,,,,,,,
+l1_mod_mul.v1 (extract),timing_arcs:x:rsc.dat->clk:,,,,,,,,,,,,,,
+
+Area Score
+,,Registers,MUX,Functional,Logic,Memory,FSM Reg,FSM Comb,FSM,Datapath,Total Reg,Total Area,rom
+l1_mod_mul.v1 (extract),,4612.781196,124.35804019999999,284652.547161,61.447680000000005,0.0,0.0,0.0,0.0,289451.1340772,4612.781196,289451.1340772,0.0
+l1_mod_mul.v1 (extract),allocate:,5026.898646,124.3580387,294940.79824500007,0.0,0.0,0.0,0.0,0.0,300092.0549297001,5026.898646,300092.0549297001,0.0
+l1_mod_mul.v1 (extract),allocate:run:,5026.898646,124.3580387,294940.79824500007,0.0,0.0,0.0,0.0,0.0,300092.0549297001,5026.898646,300092.0549297001,0.0
+l1_mod_mul.v1 (extract),dpfsm:,4612.781195999999,124.3580387,293925.9685130001,61.6131242,0.0,0.0,0.0,0.0,298724.72087190015,4612.781195999999,298724.72087190015,0.0
+l1_mod_mul.v1 (extract),dpfsm:l1_mod_mul:run:inst:,4612.781195999999,124.3580387,293925.9685130001,61.6131242,0.0,0.0,0.0,0.0,298724.72087190015,4612.781195999999,298724.72087190015,0.0
+l1_mod_mul.v1 (extract),extract:,4612.781196,124.35804019999999,284652.547161,61.447680000000005,0.0,0.0,0.0,0.0,289451.1340772,4612.781196,289451.1340772,0.0
+l1_mod_mul.v1 (extract),extract:l1_mod_mul:run:inst:,4612.781196,124.35804019999999,284652.547161,61.447680000000005,0.0,0.0,0.0,0.0,289451.1340772,4612.781196,289451.1340772,0.0

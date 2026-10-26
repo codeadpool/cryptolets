@@ -1,0 +1,23 @@
+{
+  "mode": "pipelined",
+  "latency_cycles": 16,
+  "period_ns": 1,
+  "cores": 4,
+  "hashes": {
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_021607_951088_multiplier_incremental/results/mapped.ddc": "f6b36a11a75c60be1cceda4ce87bccb460f57dba85370ded6bfaddea2a7f2342",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_014259_115687_padd/results/mapped.ddc": "48574e2276e047385dd7e46fe0fb273ba6d624e6e6b2818ba260bbc5aff05099",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_014259_115687_padd/results/mapped.sdc": "be8e9acf3bcfdb331af995e2757a8d350c83fece07bce1eae161f8f6e4b54c4f",
+    "/ip/arm/gf12/sc7p5mcpp84_base_slvt_c14/r1p0/db/sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c.db": "2026c14d955a0f7218b4b94dfdf37fcdf2ffb414c330a883a00d513b2fc74502",
+    "/eda/synopsys/syn/Y-2026.03/bin/dc_shell": "55fc03369624babd44ea58b399f20c864cf3c4d17866cf06e55106845a356354",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/registered_input_oh20_01/parent_for_dc.v": "1b26248394fd96cb85c6e386c990d99a4cd5da407462e4f0cff064ae789a0dae",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/registered_input_oh20_01/wrapper_for_dc.v": "f6843a5495a4c66472ee082a4f10260104ddb4f85cd5f8087106524b90db64df",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/memory_log.py": "200cc0973af674315683a38e99bfbda32ffbac2bf7b611845db09c4c473393f3",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/repair.tcl": "67ace16cd1e3793f19adbad980c8627725d30bb9f30b6c5de61f77f02e512f65",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/guard.py": "677aa7940eed2a3916fbdd9000e730760d81622bbf42a98afcfc6abd88f121c5",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/run_parallel_4core.py": "dce0d63ab874f2bfc7e42dec6a288d2baad221b1978cfd39fea613aff024734b"
+  },
+  "no_retiming": true,
+  "no_multicycle_exceptions_added": true,
+  "comparison_run": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_01",
+  "only_synthesis_change": "set_host_options -max_cores 1 -> 4; add host-options report"
+}

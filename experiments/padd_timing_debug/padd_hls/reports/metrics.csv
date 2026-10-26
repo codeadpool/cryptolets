@@ -1,0 +1,47 @@
+General 
+,, Latency Cycle ,Latency Time ,Throughput Cycle ,Throughput Time ,Slack ,Area 
+l2_msm_padd_rcb.v1 (extract),,16,16.0,1,1.0,0.0,3509057.0593317007
+
+Run Time
+,,Total,analyze,compile,libraries,assembly,loops,memories,cluster,architect,allocate,schedule,dpfsm,instance,extract
+l2_msm_padd_rcb.v1 (extract),,35.9,1.0900000000000003,2.3499999999999996,0.27000000000000046,0.41000000000000014,0.22999999999999954,0.29999999999999893,0.009999999999999787,0.3299999999999983,0.08999999999999986,2.450000000000001,1.08,26.0,1.2899999999999991
+
+Memory Usage
+,,Peak
+l2_msm_padd_rcb.v1 (extract),,1419660
+
+Timing
+,,Latency Cycles,Latency Time,Throughput Cycles,Throughput Time,Iterations,Total Cycles,Logical Input Delay,Max Input Delay,Logical Output Delay,Max Output Delay,Logical Max Delay,Max Delay,Slack,Clock Period
+l2_msm_padd_rcb.v1 (extract),,16,16.0,1,1.0,,,0.307,0.307,0.019,0.019,1.0,1.0,0.0,1.0
+l2_msm_padd_rcb.v1 (extract),l2_msm_padd_rcb:run:,16,16.0,1,1.0,,17,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),l2_msm_padd_rcb:run:run:rlp:,16,16.0,1,1.0,Infinite,17,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),l2_msm_padd_rcb:run:run:rlp:main:,16,16.0,1,1.0,Infinite,17,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P0_X:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P0_Z:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P1_Y:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P0_X.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P0_Z.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P1_Y.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_X.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_Y.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_Z.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P0_Y:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P1_X:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:P1_Z:rsc.dat->clk:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P0_Y.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P1_X.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->P1_Z.triosy.lz:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_X:rsc.dat:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_Y:rsc.dat:,,,,,,,,,,,,,,
+l2_msm_padd_rcb.v1 (extract),timing_arcs:clk->R_Z:rsc.dat:,,,,,,,,,,,,,,
+
+Area Score
+,,Registers,MUX,Functional,Logic,Memory,FSM Reg,FSM Comb,FSM,Datapath,Total Reg,Total Area,rom
+l2_msm_padd_rcb.v1 (extract),,8183.935206,3500.4286811999996,3497218.0279245004,154.66752,0.0,0.0,0.0,0.0,3509057.0593317007,8183.935206,3509057.0593317007,0.0
+l2_msm_padd_rcb.v1 (extract),allocate:,8168.344902,3572.7627462999994,3504436.9256569,0.0,0.0,0.0,0.0,0.0,3516178.0333052,8168.344902,3516178.0333052,0.0
+l2_msm_padd_rcb.v1 (extract),allocate:run:,8168.344902,3572.7627462999994,3504436.9256569,0.0,0.0,0.0,0.0,0.0,3516178.0333052,8168.344902,3516178.0333052,0.0
+l2_msm_padd_rcb.v1 (extract),dpfsm:,8183.935205999999,2680.5660993999995,3504436.9256569,155.1638526,0.0,0.0,0.0,0.0,3515456.5908149,8183.935205999999,3515456.5908149,0.0
+l2_msm_padd_rcb.v1 (extract),dpfsm:l2_msm_padd_rcb:run:inst:,8183.935205999999,2680.5660993999995,3504436.9256569,155.1638526,0.0,0.0,0.0,0.0,3515456.5908149,8183.935205999999,3515456.5908149,0.0
+l2_msm_padd_rcb.v1 (extract),extract:,8183.935206,3500.4286811999996,3497218.0279245004,154.66752,0.0,0.0,0.0,0.0,3509057.0593317007,8183.935206,3509057.0593317007,0.0
+l2_msm_padd_rcb.v1 (extract),extract:l2_msm_padd_rcb:run:inst:,8183.935206,3500.4286811999996,3497218.0279245004,154.66752,0.0,0.0,0.0,0.0,3509057.0593317007,8183.935206,3509057.0593317007,0.0

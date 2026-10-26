@@ -1,0 +1,377 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 10
+Design : l2_msm_padd_rcb
+Version: Y-2026.03
+Date   : Mon Oct 26 02:45:53 2026
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: tt_nominal_max_0p90v_25c   Library: sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+Wire Load Model Mode: top
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[62]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/rst (l1_mod_mul_d7267ca0d90c7363_regin_4)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/rst (FIXEDMUL_l1_mod_mul_4)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_4)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/U1166/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[62]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[62]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/rst (l1_mod_mul_d7267ca0d90c7363_regin_4)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/rst (FIXEDMUL_l1_mod_mul_4)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_4)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/U1263/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[80]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/rst (l1_mod_mul_d7267ca0d90c7363_regin_4)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/rst (FIXEDMUL_l1_mod_mul_4)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_4)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/U978/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                 0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[80]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_7/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[80]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[73]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U4413/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[73]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[73]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[69]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U1023/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[69]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[69]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[43]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U1022/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[43]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[43]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[95]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U4431/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[95]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[95]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U4433/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                  0.003068
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[72]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003258   0.003258
+  data required time                                                                                                                                                                 0.003258
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003258
+  data arrival time                                                                                                                                                                  -0.003068
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                   -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_95_95_3_constexpr_if_else_acc_7_itm_1_142_47_reg[47]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                         Incr       Path
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                     0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                               0.000000   0.000000
+  input external delay                                                                                                                                                      0.000000   0.000000 r
+  rst (in)                                                                                                                                                                  0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                        0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                  0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                              0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U1020/Y (NOR2B_X1N_A7P5PP84TSL_C14)                                                                  0.003068   0.003068 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_95_95_3_constexpr_if_else_acc_7_itm_1_142_47_reg[47]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003068 f
+  data arrival time                                                                                                                                                                    0.003068
+
+  clock clk (rise edge)                                                                                                                                                     0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                               0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_95_95_3_constexpr_if_else_acc_7_itm_1_142_47_reg[47]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                         0.003258   0.003258
+  data required time                                                                                                                                                                   0.003258
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                   0.003258
+  data arrival time                                                                                                                                                                    -0.003068
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (VIOLATED)                                                                                                                                                                     -0.000190
+
+
+  Startpoint: rst (input port clocked by clk)
+  Endpoint: l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[61]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  l2_msm_padd_rcb    Zero                  sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c
+
+  Point                                                                                                                                                                       Incr       Path
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  input external delay                                                                                                                                                    0.000000   0.000000 r
+  rst (in)                                                                                                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/rst (l2_msm_padd_rcb_run)                                                                                                                      0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/rst (l1_mod_mul_d7267ca0d90c7363_regin_3)                                                                                0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/rst (FIXEDMUL_l1_mod_mul_3)                                                                                            0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/rst (FIXEDMUL_l1_mod_mul_run_3)                                                                    0.000000   0.000000 r
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/U1204/Y (NOR2B_X0P7N_A7P5PP84TSL_C14)                                                              0.003946   0.003946 f
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[61]/D (DFFQN_X3N_A7P5PP84TSL_C14)  0.000000   0.003946 f
+  data arrival time                                                                                                                                                                  0.003946
+
+  clock clk (rise edge)                                                                                                                                                   0.000000   0.000000
+  clock network delay (ideal)                                                                                                                                             0.000000   0.000000
+  l2_msm_padd_rcb_run_inst/modmul_inst_rtl_cmp_8/u/l1_mod_mul_run_inst/l0_int_mul_sb_64_96_96_constexpr_if_else_acc_7_itm_1_144_48_reg[61]/CK (DFFQN_X3N_A7P5PP84TSL_C14) 0.000000   0.000000 r
+  library hold time                                                                                                                                                       0.003073   0.003073
+  data required time                                                                                                                                                                 0.003073
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  data required time                                                                                                                                                                 0.003073
+  data arrival time                                                                                                                                                                  -0.003946
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  slack (MET)                                                                                                                                                                        0.000873
+
+
+1

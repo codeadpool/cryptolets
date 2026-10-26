@@ -1,0 +1,56 @@
+{
+  "state": "completed_timing_unmet",
+  "pid": 1187911,
+  "started_utc": "2026-10-25T21:30:42.663713+00:00",
+  "max_cores": 4,
+  "latency_cycles": 16,
+  "ii": 1,
+  "period_ns": 1,
+  "run_dir": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01",
+  "comparison_run": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_01",
+  "updated_utc": "2026-10-26T06:49:01.995075+00:00",
+  "dc_log": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/dc.log",
+  "command": [
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/../workspace/.venv/bin/python",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/guard.py",
+    "--min-free-gib",
+    "50",
+    "--",
+    "/eda/synopsys/syn/Y-2026.03/bin/dc_shell",
+    "-f",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/padd_timing_1ns/runs/pipelined_dc_parallel4_01/sources/repair.tcl"
+  ],
+  "guard_pid": 1187914,
+  "wall_seconds": 33499.07572167483,
+  "exit_code": 0,
+  "passes": {
+    "pass_1": {
+      "area_um2": 1681480.269416,
+      "area_mm2": 1.681480269416,
+      "worst_slack_ns": -0.257143,
+      "setup_met": false
+    },
+    "pass_2": {
+      "area_um2": 1687103.942319,
+      "area_mm2": 1.687103942319,
+      "worst_slack_ns": -0.152882,
+      "setup_met": false
+    }
+  },
+  "after": {
+    "area_um2": 1687103.942319,
+    "area_mm2": 1.687103942319,
+    "worst_slack_ns": -0.152882,
+    "setup_met": false
+  },
+  "ended_utc": "2026-10-26T06:49:01.857649+00:00",
+  "mapped_ddc_sha256": "9cb3aeb4db96972bdb2b3b8dafcb1d71178c78f1d6b1141cf02a9c0ac74f4f78",
+  "memory": {
+    "reason": "tool_exit",
+    "exit_code": 0,
+    "peak_sampled_dc_rss_gib": 66.38490676879883,
+    "minimum_sampled_host_available_gib": 595.1899795532227,
+    "peak_sampled_process_count": 5,
+    "note": "Process-group RSS sum can double-count shared pages; five-second sampling can miss peaks."
+  }
+}

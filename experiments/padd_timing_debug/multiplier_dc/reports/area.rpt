@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : l1_mod_mul
+Version: Y-2026.03
+Date   : Fri Oct 23 23:29:55 2026
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'l1_mod_mul' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c (File: /ip/arm/gf12/sc7p5mcpp84_base_slvt_c14/r1p0/db/sc7p5mcpp84_12lp_base_slvt_c14_tt_nominal_max_0p90v_25c.db)
+
+Number of ports:                        64155
+Number of nets:                        551321
+Number of cells:                       358634
+Number of combinational cells:         353721
+Number of sequential cells:              4732
+Number of macros/black boxes:               0
+Number of buf/inv:                      42903
+Number of references:                       1
+
+Combinational area:             154787.394248
+Buf/Inv area:                     4220.334828
+Noncombinational area:            3088.431473
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                157875.825721
+Total area:                 undefined
+1
