@@ -1,0 +1,352 @@
+{
+  "top_module": "msm_mpe_pe",
+  "raw_rtl": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/Catapult/msm_mpe_pe.v1/rtl.v",
+  "concat_rtl": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/Catapult/msm_mpe_pe.v1/concat_rtl.v",
+  "wrappers": [
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/blackbox/wrapper/l2_msm_padd_rcb_d7267ca0d90c7363_wrapper.v",
+    "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/blackbox/wrapper/msm_normalize_l1_mod_mul_d7267ca0d90c7363_wrapper.v"
+  ],
+  "padd_reference_module": "l2_msm_padd_rcb_d7267ca0d90c7363",
+  "padd_reference_instances": 1,
+  "external_memory_model": "/eda/siemens/Catapult/Mgc_home/pkgs/siflibs/ccs_ram_sync_1R1W.v",
+  "passed": true,
+  "failures": [],
+  "top": "msm_mpe_pe",
+  "rtl": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/Catapult/msm_mpe_pe.v1/rtl.v",
+  "rtl_sha256": "208bd5983b887c7c5890958fe538161b94944fa7bcf0ca9a8f48c9ddc475dda0",
+  "bucket_memories": {
+    "x": {
+      "depth": 2080,
+      "data_bits": 381,
+      "address_bits": 12,
+      "ports": [
+        {
+          "name": "sched_core_br_x_rsc_we",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_x_rsc_d",
+          "direction": "output",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_x_rsc_wadr",
+          "direction": "output",
+          "width": 12
+        },
+        {
+          "name": "sched_core_br_x_rsc_q",
+          "direction": "input",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_x_rsc_re",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_x_rsc_radr",
+          "direction": "output",
+          "width": 12
+        }
+      ],
+      "memory_type": "synchronous 1R1W, external ccs_ram_sync_1R1W model",
+      "read_latency_cycles": 1,
+      "clock_edge": "posedge",
+      "read_enable_active_high": true,
+      "write_enable_active_high": true,
+      "same_address_read_write": "read returns old data",
+      "disabled_read": "read data holds previous value"
+    },
+    "y": {
+      "depth": 2080,
+      "data_bits": 381,
+      "address_bits": 12,
+      "ports": [
+        {
+          "name": "sched_core_br_y_rsc_we",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_y_rsc_d",
+          "direction": "output",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_y_rsc_wadr",
+          "direction": "output",
+          "width": 12
+        },
+        {
+          "name": "sched_core_br_y_rsc_q",
+          "direction": "input",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_y_rsc_re",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_y_rsc_radr",
+          "direction": "output",
+          "width": 12
+        }
+      ],
+      "memory_type": "synchronous 1R1W, external ccs_ram_sync_1R1W model",
+      "read_latency_cycles": 1,
+      "clock_edge": "posedge",
+      "read_enable_active_high": true,
+      "write_enable_active_high": true,
+      "same_address_read_write": "read returns old data",
+      "disabled_read": "read data holds previous value"
+    },
+    "z": {
+      "depth": 2080,
+      "data_bits": 381,
+      "address_bits": 12,
+      "ports": [
+        {
+          "name": "sched_core_br_z_rsc_we",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_z_rsc_d",
+          "direction": "output",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_z_rsc_wadr",
+          "direction": "output",
+          "width": 12
+        },
+        {
+          "name": "sched_core_br_z_rsc_q",
+          "direction": "input",
+          "width": 381
+        },
+        {
+          "name": "sched_core_br_z_rsc_re",
+          "direction": "output",
+          "width": 1
+        },
+        {
+          "name": "sched_core_br_z_rsc_radr",
+          "direction": "output",
+          "width": 12
+        }
+      ],
+      "memory_type": "synchronous 1R1W, external ccs_ram_sync_1R1W model",
+      "read_latency_cycles": 1,
+      "clock_edge": "posedge",
+      "read_enable_active_high": true,
+      "write_enable_active_high": true,
+      "same_address_read_write": "read returns old data",
+      "disabled_read": "read data holds previous value"
+    }
+  },
+  "all_top_ports": [
+    {
+      "name": "clk",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "rst",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "cmd_in_vld",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "cmd_in_rdy",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "cmd_in_dat",
+      "direction": "input",
+      "width": 30
+    },
+    {
+      "name": "done_out_vld",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "done_out_rdy",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "done_out_dat",
+      "direction": "output",
+      "width": 1143
+    },
+    {
+      "name": "sreq_vld",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sreq_rdy",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "sreq_dat",
+      "direction": "output",
+      "width": 16
+    },
+    {
+      "name": "sresp_vld",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "sresp_rdy",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sresp_dat",
+      "direction": "input",
+      "width": 510
+    },
+    {
+      "name": "preq_vld",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "preq_rdy",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "preq_dat",
+      "direction": "output",
+      "width": 25
+    },
+    {
+      "name": "presp_vld",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "presp_rdy",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "presp_dat",
+      "direction": "input",
+      "width": 771
+    },
+    {
+      "name": "sched_core_br_x_rsc_we",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_x_rsc_d",
+      "direction": "output",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_x_rsc_wadr",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "sched_core_br_x_rsc_q",
+      "direction": "input",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_x_rsc_re",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_x_rsc_radr",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "sched_core_br_y_rsc_we",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_y_rsc_d",
+      "direction": "output",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_y_rsc_wadr",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "sched_core_br_y_rsc_q",
+      "direction": "input",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_y_rsc_re",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_y_rsc_radr",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "sched_core_br_z_rsc_we",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_z_rsc_d",
+      "direction": "output",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_z_rsc_wadr",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "sched_core_br_z_rsc_q",
+      "direction": "input",
+      "width": 381
+    },
+    {
+      "name": "sched_core_br_z_rsc_re",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "sched_core_br_z_rsc_radr",
+      "direction": "output",
+      "width": 12
+    }
+  ],
+  "internal_generic_sram_instances": 0,
+  "excluded_bucket_sram_bits": 2377440,
+  "excluded_bucket_sram_mib": 0.2834129333496094,
+  "excluded_bucket_sram_area_mm2_at_0_88_per_mib": 0.24940338134765624,
+  "notes": [
+    "No scheduler or array access order change: externalization is a Catapult mapping directive.",
+    "Array behavior is verified by SCVerify external sample-memory models, not counted as PE mapped logic.",
+    "C++ busy/address queues and pending FIFO remain within the PE."
+  ]
+}

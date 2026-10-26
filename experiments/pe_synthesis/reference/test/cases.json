@@ -1,0 +1,223 @@
+{
+  "curve": "BLS12-381 G1 y^2=x^3+4",
+  "oracle": "independent Python affine EC group arithmetic",
+  "coordinate_domain": "Montgomery X/Y inputs; ordinary affine outputs",
+  "geometry": {
+    "physical_bank_capacity": 4096,
+    "pe_contexts": 8,
+    "context_words": 260,
+    "bucket_xyz_words_each": 2080
+  },
+  "commands": [
+    {
+      "command": 0,
+      "label": "first_tile_context_0",
+      "context": 0,
+      "window": 31,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 1,
+      "label": "first_tile_context_1",
+      "context": 1,
+      "window": 27,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 2,
+      "label": "first_tile_context_2",
+      "context": 2,
+      "window": 23,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 3,
+      "label": "first_tile_context_3",
+      "context": 3,
+      "window": 19,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 4,
+      "label": "first_tile_context_4",
+      "context": 4,
+      "window": 15,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 5,
+      "label": "first_tile_context_5",
+      "context": 5,
+      "window": 11,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 6,
+      "label": "first_tile_context_6",
+      "context": 6,
+      "window": 7,
+      "n": 8,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 7
+    },
+    {
+      "command": 7,
+      "label": "first_tile_context_7",
+      "context": 7,
+      "window": 3,
+      "n": 9,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 8
+    },
+    {
+      "command": 8,
+      "label": "second_tile_context_0_queue_backpressure",
+      "context": 0,
+      "window": 31,
+      "n": 11,
+      "clear": false,
+      "reduce": false,
+      "expected_point_reads": 11
+    },
+    {
+      "command": 9,
+      "label": "second_tile_context_7_odd_count",
+      "context": 7,
+      "window": 3,
+      "n": 7,
+      "clear": false,
+      "reduce": false,
+      "expected_point_reads": 6
+    },
+    {
+      "command": 10,
+      "label": "clear_previously_populated_context_3_empty",
+      "context": 3,
+      "window": 19,
+      "n": 0,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 11,
+      "label": "serial_reduce_context_0",
+      "context": 0,
+      "window": 31,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 12,
+      "label": "serial_reduce_context_1",
+      "context": 1,
+      "window": 27,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 13,
+      "label": "serial_reduce_context_2",
+      "context": 2,
+      "window": 23,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 14,
+      "label": "serial_reduce_context_3",
+      "context": 3,
+      "window": 19,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 15,
+      "label": "serial_reduce_context_4",
+      "context": 4,
+      "window": 15,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 16,
+      "label": "serial_reduce_context_5",
+      "context": 5,
+      "window": 11,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 17,
+      "label": "serial_reduce_context_6",
+      "context": 6,
+      "window": 7,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 18,
+      "label": "serial_reduce_context_7",
+      "context": 7,
+      "window": 3,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    },
+    {
+      "command": 19,
+      "label": "new_msm_reinitialize_context_0_and_scratch",
+      "context": 0,
+      "window": 31,
+      "n": 5,
+      "clear": true,
+      "reduce": false,
+      "expected_point_reads": 5
+    },
+    {
+      "command": 20,
+      "label": "serial_reduce_reinitialized_context_0",
+      "context": 0,
+      "window": 31,
+      "n": 0,
+      "clear": false,
+      "reduce": true,
+      "expected_point_reads": 0
+    }
+  ]
+}

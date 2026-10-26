@@ -1,0 +1,67 @@
+#ifndef _L2_MSM_PADD_RCB_BLACKBOX_H_
+#define _L2_MSM_PADD_RCB_BLACKBOX_H_
+
+#if defined(__SYNTHESIS__) && defined(BLACKBOX_FLOW)
+
+#include <ac_int.h>
+#include <ac_blackbox.h>
+#include "params.h"
+
+// The implementation itself, which a design that was not packaged still uses
+#include "@PADD_IMPL@"
+
+// One packaged design, standing in for the implementation at these arguments
+template<>
+class l2_msm_padd_rcb_impl<BLS12_381_BASE, MRED_MONT> {
+    // The template params under their own names, so run is copied as written
+    using _FIELD = BLS12_381_BASE;
+    static constexpr int _MRED = MRED_MONT;
+
+public:
+    l2_msm_padd_rcb_impl() {}
+
+    // A constant the design bakes in is not a port, so it stops here
+    void run(
+        const ac_int<_FIELD::W,false> P0_X,
+        const ac_int<_FIELD::W,false> P0_Y,
+        const ac_int<_FIELD::W,false> P0_Z,
+        const ac_int<_FIELD::W,false> P1_X,
+        const ac_int<_FIELD::W,false> P1_Y,
+        const ac_int<_FIELD::W,false> P1_Z,
+        const ac_int<_FIELD::W,false> q,
+        const ac_int<l1_mod_mul_consts<_FIELD,_MRED>::RC,false> rc,
+        ac_int<_FIELD::W,false> &R_X,
+        ac_int<_FIELD::W,false> &R_Y,
+        ac_int<_FIELD::W,false> &R_Z
+    ) {
+        rtl(P0_X, P0_Y, P0_Z, P1_X, P1_Y, P1_Z, R_X, R_Y, R_Z);
+    }
+
+    // The packaged RTL, with the ports it was built with
+    #pragma hls_design interface ccore blackbox
+    void rtl(
+        const ac_int<_FIELD::W,false> P0_X,
+        const ac_int<_FIELD::W,false> P0_Y,
+        const ac_int<_FIELD::W,false> P0_Z,
+        const ac_int<_FIELD::W,false> P1_X,
+        const ac_int<_FIELD::W,false> P1_Y,
+        const ac_int<_FIELD::W,false> P1_Z,
+        ac_int<_FIELD::W,false> &R_X,
+        ac_int<_FIELD::W,false> &R_Y,
+        ac_int<_FIELD::W,false> &R_Z
+    ) {
+        ac_blackbox()
+            .entity("l2_msm_padd_rcb_d7267ca0d90c7363")
+            .verilog_files("@PADD_RTL@")
+            .outputs("R_X R_Y R_Z")
+            .area(3504197.7517689)
+            .clock_name("clk").latency(12).init_delay(1)
+            .sync_reset_name("rst").active_high_sync_reset(true)
+            .end();
+    }
+};
+#else
+#include "@PADD_IMPL@"
+#endif
+
+#endif /* _L2_MSM_PADD_RCB_BLACKBOX_H_ */

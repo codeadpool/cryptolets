@@ -1,0 +1,83 @@
+kernel: l2_msm_padd_rcb
+module: l2_msm_padd_rcb
+rtl: l2_msm_padd_rcb.v
+sdc: l2_msm_padd_rcb.sdc
+combinational: false
+ports:
+- name: clk
+  direction: input
+  width: 1
+- name: rst
+  direction: input
+  width: 1
+- name: P0_X_rsc_dat
+  direction: input
+  width: 381
+- name: P0_X_triosy_lz
+  direction: output
+  width: 1
+- name: P0_Y_rsc_dat
+  direction: input
+  width: 381
+- name: P0_Y_triosy_lz
+  direction: output
+  width: 1
+- name: P0_Z_rsc_dat
+  direction: input
+  width: 381
+- name: P0_Z_triosy_lz
+  direction: output
+  width: 1
+- name: P1_X_rsc_dat
+  direction: input
+  width: 381
+- name: P1_X_triosy_lz
+  direction: output
+  width: 1
+- name: P1_Y_rsc_dat
+  direction: input
+  width: 381
+- name: P1_Y_triosy_lz
+  direction: output
+  width: 1
+- name: P1_Z_rsc_dat
+  direction: input
+  width: 381
+- name: P1_Z_triosy_lz
+  direction: output
+  width: 1
+- name: R_X_rsc_dat
+  direction: output
+  width: 381
+- name: R_X_triosy_lz
+  direction: output
+  width: 1
+- name: R_Y_rsc_dat
+  direction: output
+  width: 381
+- name: R_Y_triosy_lz
+  direction: output
+  width: 1
+- name: R_Z_rsc_dat
+  direction: output
+  width: 381
+- name: R_Z_triosy_lz
+  direction: output
+  width: 1
+dut_path: scverify_top/rtl/dut_inst
+params:
+  bitwidth: 381
+  tech_type: gf12_highperf
+  period: 1.0
+  ii: 1
+  dep_period_ratio: 1.0
+  field: bls12_381_base
+  mred: mred_mont
+  q_type: fixed_q
+  rc_type: fixed_rc
+  mul_type: mul_kar
+  base_mul_width: 64
+  kar_base_mul_width: 192
+area: 3504197.7517689
+latency: 12
+delay: 0.9896

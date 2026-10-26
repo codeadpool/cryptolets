@@ -1,0 +1,19 @@
+{
+  "state": "passed",
+  "pid": 634485,
+  "top": "msm_mpe_pe",
+  "started_utc": "2026-10-24T00:20:59Z",
+  "physical_geometry": {
+    "parent_pes": 4,
+    "contexts": 8,
+    "coordinate_memories": 3,
+    "words_per_coordinate": 2080,
+    "field_bits": 381,
+    "bank_points": 4096,
+    "pending_fifo": 8
+  },
+  "wall_seconds": 10553.174642655067,
+  "osci_golden_match": true,
+  "external_memory_check_passed": true,
+  "rtl_golden_match": true
+}

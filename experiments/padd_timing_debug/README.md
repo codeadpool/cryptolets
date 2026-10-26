@@ -10,6 +10,11 @@ The review branch is based on Tessera commit
 that the historical experiment used that version of Tessera. The experiment used
 its own frozen source copy, selected files from which are under `frozen_sources/`.
 
+The companion [standalone PE synthesis package](../pe_synthesis/README.md)
+contains the minimal PE sources, included 12-cycle PADD RTL, and portable
+Catapult/DC preparation commands. That PE preserves its validated arithmetic
+baseline; it does not integrate this 16-cycle PADD candidate.
+
 ## Start here
 
 | Artifact | What to inspect |

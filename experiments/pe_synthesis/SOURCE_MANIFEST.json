@@ -1,0 +1,194 @@
+{
+  "sources": [
+    {
+      "file": "msm/include/msm_mpe_pe.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_mpe_pe.h",
+      "source_sha256": "2b01f648f89ddf8fff7955e3457037f4f62f8687c036d6414e55c22d91b97329",
+      "sha256": "2b01f648f89ddf8fff7955e3457037f4f62f8687c036d6414e55c22d91b97329",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_mpe_sched.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_mpe_sched.h",
+      "source_sha256": "62e4257747e40da32f972b9917cbcc5ccdcdf99f4f8ffe17472d0491b78b1604",
+      "sha256": "62e4257747e40da32f972b9917cbcc5ccdcdf99f4f8ffe17472d0491b78b1604",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_mpe_types.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_mpe_types.h",
+      "source_sha256": "b7ea44e7f10885a534f0c38cdedd097346505c9c547a3b927a7929154a12d83a",
+      "sha256": "b7ea44e7f10885a534f0c38cdedd097346505c9c547a3b927a7929154a12d83a",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_sc_types.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_sc_types.h",
+      "source_sha256": "329152673a2fad1151383238a2efb5d27a2b7d74f378ea64c7903c21d873b344",
+      "sha256": "329152673a2fad1151383238a2efb5d27a2b7d74f378ea64c7903c21d873b344",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_sc_fetch.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_sc_fetch.h",
+      "source_sha256": "65bb74190b0516f0f5749fdddc598c75e488de2d29eb67ab1836fb35148566b8",
+      "sha256": "65bb74190b0516f0f5749fdddc598c75e488de2d29eb67ab1836fb35148566b8",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_padd.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_padd.h",
+      "source_sha256": "cc20824d62e6f909fb4417047fd7af81c56530011477e3af4c868dc6ad275894",
+      "sha256": "cc20824d62e6f909fb4417047fd7af81c56530011477e3af4c868dc6ad275894",
+      "unchanged": true
+    },
+    {
+      "file": "msm/include/msm_common.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/include/msm_common.h",
+      "source_sha256": "e447d11e11c6a92cfc15d93c81a7e81a81e1c83f0876767bd8c0ae16ddad0de6",
+      "sha256": "e447d11e11c6a92cfc15d93c81a7e81a81e1c83f0876767bd8c0ae16ddad0de6",
+      "unchanged": true
+    },
+    {
+      "file": "msm/src/msm_pe_tb.cpp",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/src/msm_pe_tb.cpp",
+      "source_sha256": "80b995d5588162b1f04c004f67679181ca37d7e286943e621a1011a6e0f893fe",
+      "sha256": "80b995d5588162b1f04c004f67679181ca37d7e286943e621a1011a6e0f893fe",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/gen_pe_vectors.py",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/scripts/gen_pe_vectors.py",
+      "source_sha256": "6511340ed134e36c629e570ef87ad825b8354d63195520057689523901123e47",
+      "sha256": "6511340ed134e36c629e570ef87ad825b8354d63195520057689523901123e47",
+      "unchanged": true
+    },
+    {
+      "file": "scripts/report_external_pe.py",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/scripts/report_external_pe.py",
+      "source_sha256": "6ad2ac01e234c4dd4b469085a8d23761308533913e52fdf671f5aa3fe4ad6bca",
+      "sha256": "b7fbd4504410e64db4c2f9da1b0d68304f2b2305685e41f0d7c9b88b6e813c33",
+      "unchanged": false
+    },
+    {
+      "file": "support/l2_msm_normalize_impl.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/kernels/l2/l2_msm_normalize/impl/l2_msm_normalize_impl.h",
+      "source_sha256": "90a6f0486310f1737c3afb328f0f3bcb4c4263526197cba0e48d44b44948dfa9",
+      "sha256": "90a6f0486310f1737c3afb328f0f3bcb4c4263526197cba0e48d44b44948dfa9",
+      "unchanged": true
+    },
+    {
+      "file": "support/csvparser.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/tessera/cpp/include/csvparser.h",
+      "source_sha256": "eff37011551b08ad5a8bf7d2a9fc221d915e280639178c84e295e157103b0c5e",
+      "sha256": "eff37011551b08ad5a8bf7d2a9fc221d915e280639178c84e295e157103b0c5e",
+      "unchanged": true
+    },
+    {
+      "file": "support/csvparser.cpp",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/tessera/cpp/src/csvparser.cpp",
+      "source_sha256": "d474fb20c279e7a3d80f44e71d7438fb205d54f8aefc8f62c8970b8bf132ef6d",
+      "sha256": "d474fb20c279e7a3d80f44e71d7438fb205d54f8aefc8f62c8970b8bf132ef6d",
+      "unchanged": true
+    },
+    {
+      "file": "arithmetic/params.h",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/include/params.h",
+      "source_sha256": "f0bd8270e5d17dd68d86cc41488412b2b107ec07da7fbe28d90ec75a9a2c9550",
+      "sha256": "f0bd8270e5d17dd68d86cc41488412b2b107ec07da7fbe28d90ec75a9a2c9550",
+      "unchanged": true
+    },
+    {
+      "file": "arithmetic/padd_manifest.yaml",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/build/l2_msm_padd_rcb/d7267ca0d90c7363/package/manifest.yaml",
+      "source_sha256": "22aecad48bf0a18c65136cc471706034c6c2b285aff5394c0a7497d5c925326c",
+      "sha256": "22aecad48bf0a18c65136cc471706034c6c2b285aff5394c0a7497d5c925326c",
+      "unchanged": true
+    },
+    {
+      "file": "arithmetic/padd.v",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/blackbox/rtl/l2_msm_padd_rcb_d7267ca0d90c7363.v",
+      "source_sha256": "df77c21efc77e1e1f6886e60dd99ba10dc712c095aa9578e0e598e38c6e783d3",
+      "sha256": "df77c21efc77e1e1f6886e60dd99ba10dc712c095aa9578e0e598e38c6e783d3",
+      "unchanged": true
+    },
+    {
+      "file": "arithmetic/padd_wrapper.v",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/blackbox/wrapper/l2_msm_padd_rcb_d7267ca0d90c7363_wrapper.v",
+      "source_sha256": "22c6ff85fbe6422e630aaa22f7669c6b23ed446bc9e41101f2317e442dcabdd1",
+      "sha256": "22c6ff85fbe6422e630aaa22f7669c6b23ed446bc9e41101f2317e442dcabdd1",
+      "unchanged": true
+    },
+    {
+      "file": "arithmetic/padd_blackbox.h.in",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/blackbox/impl/l2_msm_padd_rcb_impl.h",
+      "source_sha256": "83d2242994043dbb3d01607cb6dce9dac6aac25f244fd6fe20f2c69349b03682",
+      "sha256": "62da784e8a7fc85e34e1f484593a464a0cd452b7a487579acca10a711fb53c69",
+      "unchanged": false
+    },
+    {
+      "file": "tcl/msm_pe_external.tcl",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/workspace/msm/tcl/msm_pe_external.tcl",
+      "source_sha256": "a9ba361741a9c33eadb490efb39b8b706701089222e24ff791fc9c57c9289422",
+      "sha256": "bfbababe72a0c2fc64b7167c011526b9673a8a6cc1eaf1f5a77abb3bea5b5e4e",
+      "unchanged": false
+    },
+    {
+      "file": "dc/map_stage.tcl",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_224350_218655_pe/map_stage.tcl",
+      "source_sha256": "a0211c7a4ffae40a09f1c7443acb05559864101c9f5e0b9b4d7e115bea16e74a",
+      "sha256": "2d2990bbd6b2f3a235dcdc0112d2f992777bbe6ed9fd6bbec0c8501af642876a",
+      "unchanged": false
+    },
+    {
+      "file": "scripts/extract_parent.py",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc/run_pipeline.py",
+      "source_sha256": "275757d3a7349487e95795aae10fa03b6989608d0bd83be273056ce9e2cdd7cc",
+      "sha256": "12076631af21b341728a61d68d5ada2f404a1fa3d6f1645df0ac9c54bf73898e",
+      "unchanged": false,
+      "transformation": "Extract unchanged walk/modules/parent_rtl functions and their imports"
+    },
+    {
+      "file": "reference/status.json",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/status.json",
+      "source_sha256": "51f6e5d7ba5434de65fdbe3412a8f46babdf17b71415d73107968de6300f9572",
+      "sha256": "51f6e5d7ba5434de65fdbe3412a8f46babdf17b71415d73107968de6300f9572",
+      "unchanged": true
+    },
+    {
+      "file": "reference/reports/pe_artifact_contract.json",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/reports/pe_artifact_contract.json",
+      "source_sha256": "3000882ee377e1c33360e2bbea8401eb74651db24a9bd2c356db95c93d31d792",
+      "sha256": "3000882ee377e1c33360e2bbea8401eb74651db24a9bd2c356db95c93d31d792",
+      "unchanged": true
+    },
+    {
+      "file": "reference/test/cases.json",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/pe_hls/test/cases.json",
+      "source_sha256": "b8f5a050c0671fd32484b261508fc83fe89846b9ac77505cfb55a06af7266af8",
+      "sha256": "b8f5a050c0671fd32484b261508fc83fe89846b9ac77505cfb55a06af7266af8",
+      "unchanged": true
+    },
+    {
+      "file": "reference/dc_qor.rpt",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_224350_218655_pe/reports/qor.rpt",
+      "source_sha256": "be49f05be31179253cc51ca00915a943d64f12422159ece39bdac38b9003f054",
+      "sha256": "be49f05be31179253cc51ca00915a943d64f12422159ece39bdac38b9003f054",
+      "unchanged": true
+    },
+    {
+      "file": "reference/protected_after.rpt",
+      "source": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_224350_218655_pe/reports/protected_after.rpt",
+      "source_sha256": "765af21ccca1ab97b66baca540bad9fd0481ba8862286315bc3235f89bcf41ef",
+      "sha256": "765af21ccca1ab97b66baca540bad9fd0481ba8862286315bc3235f89bcf41ef",
+      "unchanged": true
+    }
+  ],
+  "mapped_padd": {
+    "path": "/home/ajd9396/hls_sandbox/msm_attempt/v6/experiments/pe_dc_simple/dc_runs/20261024_014259_115687_padd/results/mapped.ddc",
+    "sha256": "48574e2276e047385dd7e46fe0fb273ba6d624e6e6b2818ba260bbc5aff05099",
+    "latency_cycles": 12,
+    "included": false
+  },
+  "note": "PE datapath/scheduler and PADD RTL are unchanged; path/configuration adaptations are labeled."
+}
