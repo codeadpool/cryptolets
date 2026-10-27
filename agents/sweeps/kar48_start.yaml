@@ -1,0 +1,30 @@
+# PADD search, lane kar48: met DC at 15 cycles with the smallest area near 16 cycles
+sweep:
+  bitwidth: [381]
+  tech_type: [gf12_highperf]
+  period: [1.0]
+  ii: [1]
+  field: [bls12_381_base]
+  q_type: [fixed_q]
+  rc_type: [fixed_rc]
+  mred: [mred_mont]
+  padd_rcb_form: [padd_rcb_alg7]
+  # A PADD inside the PE always carries this, so set it here for the same hash
+  coef_type: [fixed_coef]
+  mul_type: [mul_kar]
+  base_mul_width: {381: [48]}
+  kar_base_mul_width: {381: [48]}
+  dep_period_ratio: [0.9]
+  dep_io_ratio: [0.7]
+variants:
+  - {deps: {l1_mod_mul: {io_delay: [0.83]}, l1_mod_cmul: {io_delay: [0.83]}},
+     catapult: {l1_mod_mul: {CLOCK_OVERHEAD: [0]}, l1_mod_cmul: {CLOCK_OVERHEAD: [0]}}}
+flags:
+  num_test_samples: 100
+  syn_sel: all
+  bb_syn_metrics: false
+  syn_passes: 1
+  blackbox:
+    l2_point_add_rcb: [l1_mod_mul, l1_mod_cmul]
+    l1_mod_mul: [l0_int_cmul]
+    l1_mod_cmul: [l0_int_cmul]

@@ -196,9 +196,12 @@ def live_instances(design, kernel):
     gen_params_h(design, out_dir=gcc_dir)
     gen_kernel_top(design, kernel, out_dir=gcc_dir)
 
-    # Taking run's address makes gcc emit it, and so everything it calls
+    # Taking run's address makes gcc emit it, and so everything it calls.
+    # An sc_module's constructor registers its threads, so building one emits them.
     source = gcc_dir / "src" / f"{kernel.name}_top.cpp"
-    source.write_text(source.read_text() + f"static auto use_run = &{kernel.name}_top::run;\n")
+    use = (f"void use_top() {{ {kernel.name}_impl top(\"top\"); }}\n" if kernel.config.systemc
+           else f"static auto use_run = &{kernel.name}_top::run;\n")
+    source.write_text(source.read_text() + use)
     obj = compile_with_debug_info(gcc_dir, source)
 
     instances = {}

@@ -1,0 +1,53 @@
+# The parameters that change the hardware, which name a design's build directory.
+# ii stays in: the PE sets its own loop pipelining, but its PADD child inherits ii.
+design_key: [bitwidth, tech_type, period, io_delay, ii, dep_period_ratio, dep_io_ratio, field,
+             q_type, rc_type, mred, mul_type, base_mul_width, kar_base_mul_width, padd_rcb_form,
+             coef_type]
+
+# Of those, the ones that decide what this computes, so only designs that
+# could replace one another are compared
+kernel_key: [bitwidth, field, q_type, rc_type]
+
+# The impl is an sc_module, which is the top itself
+systemc: true
+
+# Kernel specific Catapult state scripts. Each body runs just before its state's
+# `go`. The instance paths name the SystemC module, l3_msm_pe_impl.
+states:
+  # Connections needs these to simulate and to synthesize the channels
+  analyze: |
+    options set Input/CompilerFlags "[options get Input/CompilerFlags] -DCONNECTIONS_ACCURATE_SIM -DSC_INCLUDE_DYNAMIC_PROCESSES"
+
+  compile: |
+    directive set -OPT_CONST_MULTS simple_one_adder
+    directive set -SPECULATE true
+    directive set -CLOCK_OVERHEAD 20
+
+  libraries: |
+    solution library add ccs_sample_mem
+
+  # The thread loops set their own II with pragmas
+  assembly: |
+    directive set -PIPELINE_INIT_INTERVAL 0
+    directive set -REGISTER_THRESHOLD 4096
+
+  # Bucket SRAMs stay outside the PE as synchronous 1R1W ports. SCVerify
+  # supplies the sample memory model around the synthesized PE.
+  loops: |
+    set ts /l3_msm_pe_impl/l3_msm_pe_impl:sched_thread/sched_thread
+    foreach m {br_x br_y br_z} {
+        directive set $ts/sched_core.$m:rsc -MAP_TO_MODULE ccs_sample_mem.ccs_ram_sync_1R1W
+        directive set $ts/sched_core.$m:rsc -EXTERNAL_MEMORY true
+    }
+    foreach m {addr_q q_head q_cnt busy} {
+        directive set $ts/sched_core.$m:rsc -MAP_TO_MODULE {[Register]}
+    }
+    foreach p [directive get "/l3_msm_pe_impl/.../*:cns" -match glob -return path] {
+        directive set $p -FIFO_DEPTH 4
+    }
+
+  # The busy bits order each bucket's write before its next read
+  allocate: |
+    foreach m {br_x br_y br_z} {
+        ignore_memory_precedences -from "*write_mem(*$m:rsc*" -to "*read_mem(*$m:rsc*"
+    }

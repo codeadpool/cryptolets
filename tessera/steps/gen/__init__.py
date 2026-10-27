@@ -43,5 +43,6 @@ class Generate(Step):
         gen_params_h(design)
         gen_kernel_top(design, kernel)
         design.blackboxed = gen_blackbox_headers(design, run_inst) if design.uses_blackboxes else True
-        gen_catapult_design_tcl(design, kernel, comb_chk=True)
+        # A SystemC kernel runs its threads forever, so it is never combinational
+        gen_catapult_design_tcl(design, kernel, comb_chk=not kernel.config.systemc)
         return True # success

@@ -157,3 +157,12 @@ test64:
   base:
     bitwidth: 64
     q: "faaf4542e6aefc7b"
+
+test32:
+  desc: "for testing and debugging; q is 1 mod 3 and -3 is not a cube, so there is no point of order 2"
+  form: Weierstrass
+  a: "0"
+  b: "3"
+  base:
+    bitwidth: 32
+    q: "ffffff9d"

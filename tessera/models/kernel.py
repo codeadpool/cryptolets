@@ -18,6 +18,7 @@ class KernelConfig(BaseModel):
     fields: list[str] = [] # Fields the impl names directly, beyond the design's own
     structs: dict[str, dict] = {} # Structs the kernel defines itself
     force_combinational: bool = False # Skip the latency check, build as one combinational block
+    systemc: bool = False # The impl is an sc_module, the top itself, with no run()
 
 
     @model_validator(mode="after")
@@ -39,8 +40,9 @@ class Kernel:
         self.name = name
         self.path = Kernel.find(name)
         self.build_dir = BUILD_DIR / name
-        self.impl_spec = parse_header(self.path / "impl" / f"{name}_impl.h")
         self.config = KernelConfig.load(self.path)
+        # A SystemC kernel has no run() to wrap, and is never a blackboxed child
+        self.impl_spec = None if self.config.systemc else parse_header(self.path / "impl" / f"{name}_impl.h")
         self.blackbox = [] # set per run from the sweep's flags.blackbox
 
     @staticmethod

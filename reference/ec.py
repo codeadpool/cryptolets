@@ -44,6 +44,16 @@ class ShortWeierstrass:
         y3 = (lam*(x1 - x3) - y1) % self.q
         return PointAffine(x3, y3)
 
+    def mul(self, k, P: PointAffine) -> PointAffine:
+        "Scalar multiplication k*P, by double and add."
+        R = PointInfinity
+        while k:
+            if k & 1:
+                R = self.add(R, P)
+            P = self.add(P, P)
+            k >>= 1
+        return R
+
 
 class TwistedEdwards:
     "Twisted Edwards curve: ax^2 + y^2 = 1 + dx^2y^2"

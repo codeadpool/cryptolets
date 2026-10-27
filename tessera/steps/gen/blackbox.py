@@ -88,6 +88,14 @@ def gen_blackbox_headers(design, run_inst):
                 arg_name = p["name"].removesuffix("_rsc_dat")
                 if arg_name in run_param_names:
                     outputs.append(arg_name)
+                    continue
+                # A struct argument R has one port per field, R_X_rsc_dat, ...,
+                # which Catapult names R.X. The handshake ports (_triosy_lz) are not data.
+                if not p["name"].endswith("_rsc_dat"):
+                    continue
+                struct = next((n for n in run_param_names if arg_name.startswith(n + "_")), None)
+                if struct:
+                    outputs.append(f"{struct}.{arg_name.removeprefix(struct + '_')}")
 
             # A fixed port is baked into the RTL, so it is not one of its ports
             run_params = child_kernel.impl_spec["run_params"]

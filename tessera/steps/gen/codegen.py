@@ -54,6 +54,13 @@ def gen_kernel_top(design, kernel, combinational=False, out_dir=None):
     A combinational kernel is wrapped, a sequential one is the top itself.
     """
     out_dir = out_dir or design.build_dir
+    if kernel.config.systemc:
+        # The sc_module is the top, so the source only has to include it
+        src = out_dir / 'src' / f'{kernel.name}_top.cpp'
+        src.parent.mkdir(parents=True, exist_ok=True)
+        src.write_text(f'#include "{kernel.name}_impl.h"\n')
+        return
+
     template_args = ", ".join(p["name"].upper()
                               for p in kernel.impl_spec["tmpl_params"])
 
@@ -96,7 +103,8 @@ def gen_catapult_design_tcl(design, kernel, comb_chk=False, combinational=False)
         tech=tech,
         comb_chk=comb_chk,
         uses_blackboxes=design.uses_blackboxes,
-        top_class=f"{kernel.name}_top" if combinational else kernel.name,
+        top_class=(f"{kernel.name}_impl" if kernel.config.systemc
+                   else f"{kernel.name}_top" if combinational else kernel.name),
         catapult_directives=directives_by_state(design, kernel),
     )
 
@@ -146,7 +154,8 @@ def _state_bodies(kernel, run_inst):
 
     compile_state = [
         # A combinational kernel is wrapped, so the top class differs
-        "solution design set $top_class.run -top",
+        # An sc_module is the top itself, not one of its methods
+        "solution design set $top_class" + ("" if kernel.config.systemc else ".run") + " -top",
         "directive set -CCORE_POINTS 1",
         "directive set -DESIGN_GOAL latency",
         "directive set -OUTPUT_REGISTERS false",

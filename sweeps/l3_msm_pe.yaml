@@ -1,0 +1,36 @@
+sweep:
+  bitwidth: [381]
+  tech_type: [gf12_highperf]
+  period: [1.0]
+  ii: [1]
+  mul_type: [mul_nor]
+  dep_period_ratio: [1.0]
+
+  base_mul_width:
+    381: [64]
+  kar_base_mul_width:
+    381: [192]
+
+  # The PE folds q and rc into its PADD, so both stay fixed
+  q_type: [fixed_q]
+  rc_type: [fixed_rc]
+
+  # Which modular reduction the multiply uses
+  mred: [mred_mont]
+
+  # The buckets hold projective points, so the PADD is alg7, with b3 baked in
+  padd_rcb_form: [padd_rcb_alg7]
+  coef_type: [fixed_coef]
+
+  field: [bls12_381_base]
+
+flags:
+  num_test_samples: 20    # each sample is a full window sum, about 6k cycles
+  syn_sel: all            # all, pareto, small_fast (smallest and fastest)
+  bb_syn_metrics: false   # blackbox children with their DC area/delay, not Catapult's estimate
+  syn_passes: 1           # compile_ultra passes: one full, the rest incremental
+  blackbox:               # deps each kernel reuses as packaged RTL; the rest are inlined
+    l3_msm_pe: [l2_point_add_rcb]
+    l2_point_add_rcb: [l1_mod_mul, l1_mod_cmul]
+    l1_mod_mul: [l0_int_cmul]
+    l1_mod_cmul: [l0_int_cmul]
